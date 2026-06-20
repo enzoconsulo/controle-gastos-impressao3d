@@ -1,0 +1,645 @@
+/* ==========================================================================
+   GESTOR 3D - PREMIUM UI / DESIGN SYSTEM
+   ========================================================================== */
+
+:root {
+  /* Cores de Fundo (Deep Space) */
+  --bg-base: #020617;
+  --bg-surface: #0f172a;
+  --bg-card: rgba(15, 23, 42, 0.65);
+  --bg-glass: rgba(15, 23, 42, 0.45);
+  
+  /* Cores de Acento (Neon / Finanças) */
+  --accent-primary: #10b981;    /* Emerald Green */
+  --accent-glow: rgba(16, 185, 129, 0.35);
+  --accent-secondary: #3b82f6;  /* Electric Blue */
+  --accent-secondary-glow: rgba(59, 130, 246, 0.35);
+  
+  /* Estados e Feedback */
+  --danger: #ef4444;            /* Rose Red */
+  --danger-glow: rgba(239, 68, 68, 0.25);
+  --warning: #f59e0b;           /* Amber */
+  --info: #6366f1;              /* Indigo */
+
+  /* Tipografia e Bordas */
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dark: #020617;
+  --border-light: rgba(148, 163, 184, 0.15);
+  --border-focus: rgba(16, 185, 129, 0.5);
+
+  /* Sombras Profissionais */
+  --shadow-float: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px var(--accent-glow);
+  
+  /* Animações */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   RESET & BASE
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-base);
+  /* Fundo de malha futurista com luzes ambientes (Ambient Glow) */
+  background-image: 
+    radial-gradient(circle at 15% 50px, rgba(59, 130, 246, 0.15), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.12), transparent 25%),
+    radial-gradient(circle at 50% 80%, rgba(99, 102, 241, 0.1), transparent 40%);
+  background-attachment: fixed;
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+/* Scrollbars Estilizados */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(2, 6, 23, 0.8);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+
+/* Animação Global de Entrada */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   LAYOUT PRINCIPAL
+   ========================================================================== */
+.app-shell {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrap {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 16px 32px;
+  width: 100%;
+  flex: 1;
+}
+
+/* ==========================================================================
+   HEADER FLUTUANTE (ESTILO DYNAMIC ISLAND)
+   ========================================================================== */
+.app-header {
+  position: sticky;
+  top: 12px;
+  z-index: 50;
+  max-width: 600px;
+  margin: 0 auto 16px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  animation: fadeUp 0.6s ease-out;
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.app-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: var(--text-dark);
+  font-size: 1.4rem;
+  font-weight: 900;
+  box-shadow: var(--shadow-glow);
+}
+
+.app-brand-copy h1 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(to right, #fff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.app-brand-copy .muted {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   SELETOR DE MESES
+   ========================================================================== */
+.app-month-bar {
+  max-width: 320px;
+  margin: 0 auto 20px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border-radius: 999px;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid var(--border-light);
+  backdrop-filter: blur(12px);
+}
+
+.month-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.1;
+}
+
+.month-caption { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-secondary); font-weight: 700; margin-bottom: 2px; }
+.month-index { font-weight: 800; font-size: 1.2rem; color: #fff; }
+.month-label { font-size: 0.75rem; color: var(--text-muted); }
+
+/* ==========================================================================
+   ABAS / NAVEGAÇÃO SPA (SEGMENTED CONTROL)
+   ========================================================================== */
+.app-tabs {
+  position: sticky;
+  top: 96px;
+  z-index: 40;
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
+  max-width: 900px;
+  margin: 0 auto 24px;
+  padding: 6px;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px);
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tab-btn {
+  flex: 1;
+  min-width: max-content;
+  padding: 12px 20px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.tab-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(59,130,246,0.15));
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Ocultar Paineis Inativos */
+.tab-panel { display: none; animation: fadeUp 0.4s ease-out forwards; }
+.tab-panel.active { display: block; }
+
+/* ==========================================================================
+   CARDS & CONTAINERS (GLASSMORPHISM)
+   ========================================================================== */
+.panel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.box-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.glass-card, .box-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-light);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Brilho superior sutil para dar volume 3D */
+.glass-card::before, .box-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+}
+
+.glass-card:hover, .box-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: var(--shadow-float);
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.panel-subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   MÉTRICAS (YELLOW GRID / PREVIEWS)
+   ========================================================================== */
+.yellow-grid {
+  background: linear-gradient(135deg, rgba(15,23,42,0.8), rgba(2,6,23,0.9));
+  border: 1px solid var(--border-light);
+  padding: 16px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.y-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.y-row span { color: var(--text-muted); }
+.y-row strong { font-weight: 800; font-size: 1.05rem; color: #fff; }
+
+.imp3d-sell-preview {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.imp3d-sell-preview div {
+  background: rgba(2, 6, 23, 0.6);
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border-light);
+}
+
+.imp3d-sell-preview .label { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;}
+.imp3d-sell-preview .value { font-weight: 800; font-size: 1.1rem; color: #fff; margin-top: 4px; display: block;}
+
+/* ==========================================================================
+   FORMULÁRIOS E INPUTS
+   ========================================================================== */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid var(--border-light);
+  color: #fff;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: var(--transition-fast);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  background: rgba(15, 23, 42, 0.8);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 0 0 4px var(--accent-glow);
+}
+
+input::placeholder {
+  color: rgba(148, 163, 184, 0.4);
+}
+
+/* ==========================================================================
+   BOTÕES (MICRO-INTERAÇÕES)
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 14px;
+  border: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border: 1px solid var(--border-light);
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 14px;
+  border: none;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: var(--bg-base);
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-strong));
+  box-shadow: var(--shadow-glow);
+  transition: var(--transition-fast);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.btn.danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.btn.danger:hover {
+  background: var(--danger);
+  color: #fff;
+  box-shadow: 0 0 20px var(--danger-glow);
+}
+
+.pill-btn {
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-light);
+  background: rgba(15, 23, 42, 0.8);
+  color: #fff;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.pill-btn:hover { background: var(--accent-secondary); border-color: var(--accent-secondary); box-shadow: 0 0 15px var(--accent-secondary-glow);}
+.pill-btn:active { transform: scale(0.9); }
+
+.btn.small {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  min-height: auto;
+}
+
+.btn.ghost { background: transparent; }
+
+/* ==========================================================================
+   TABELAS PREMIUM
+   ========================================================================== */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 16px;
+  border: 1px solid var(--border-light);
+  background: rgba(2, 6, 23, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+thead th {
+  padding: 14px 16px;
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.75rem;
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+tbody tr {
+  transition: var(--transition-fast);
+}
+
+tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ==========================================================================
+   GRÁFICOS (CHART.JS WRAPPER)
+   ========================================================================== */
+.chart-wrapper {
+  margin-top: 16px;
+  padding: 16px;
+  background: rgba(2, 6, 23, 0.4);
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  max-height: 280px;
+  min-height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+.chart-wrapper-sm { max-height: 220px; }
+
+/* ==========================================================================
+   ELEMENTOS ESPECÍFICOS DA LOJA 3D
+   ========================================================================== */
+.dash-time-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-secondary);
+  background: rgba(59, 130, 246, 0.1);
+  padding: 4px 8px;
+  border-radius: 8px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* Modais Dinâmicos (Para Transferências e Despesas) */
+#imp3d-expense-modal, #imp3d-transfer-modal {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+#imp3d-expense-modal .glass-card, #imp3d-transfer-modal .glass-card {
+  animation: fadeUp 0.3s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+}
+
+.foot {
+  text-align: center;
+  padding: 24px 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE (MOBILE)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .app-header {
+    margin: 0 12px 16px;
+    padding: 10px 16px;
+    border-radius: 24px;
+  }
+  
+  .app-tabs {
+    margin: 0 12px 20px;
+    border-radius: 16px;
+  }
+  
+  .panel-grid { grid-template-columns: 1fr; }
+  .box-grid { grid-template-columns: 1fr; }
+  
+  .glass-card, .box-card {
+    padding: 16px;
+    border-radius: 20px;
+  }
+  
+  .panel-title { font-size: 1.2rem; }
+  
+  .form-grid { grid-template-columns: 1fr; }
+  
+  .imp3d-sell-preview {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .imp3d-sell-preview {
+    grid-template-columns: 1fr;
+  }
+  
+  .btn-primary, .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .month-caption { display: none; }
+}
