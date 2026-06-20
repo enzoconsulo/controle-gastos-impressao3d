@@ -11,7 +11,6 @@
   <meta name="format-detection" content="telephone=no">
   
   <title>Gestor 3D | Workspace</title>
-  
   <link rel="stylesheet" href="style.css"/>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,20 +22,26 @@
        APP SHELL & OVERRIDES DE ALTA PERFORMANCE (UI/UX)
        ========================================================================== */
     
+    /* Proteção de Scroll e Fundo Autêntico */
     body {
       background-color: #020617;
-      /* Ambient Glow - Luzes de estúdio ao fundo */
       background-image: 
-        radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.12) 0%, transparent 40%),
-        radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.1) 0%, transparent 40%),
-        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        radial-gradient(circle at 15% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 100%, rgba(16, 185, 129, 0.06) 0%, transparent 40%),
+        url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20z' fill='%23ffffff' fill-opacity='0.01' fill-rule='evenodd'/%3E%3C/svg%3E");
       background-attachment: fixed;
       margin: 0;
-      padding-bottom: env(safe-area-inset-bottom);
+      padding-bottom: 0;
       -webkit-tap-highlight-color: transparent;
       color: #f8fafc;
       font-family: 'Inter', sans-serif;
     }
+
+    /* Ocultar scrollbars globais para um visual clean (tipo Mac) */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
     /* ==========================================
        1. HEADER (DYNAMIC ISLAND REFINADO)
@@ -72,8 +77,8 @@
       box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3), inset 0 2px 4px rgba(255,255,255,0.3);
       color: #020617;
     }
-    .app-brand h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; margin: 0; text-shadow: 0 2px 10px rgba(255,255,255,0.1); }
-    .app-brand p { font-size: 0.75rem; color: #94a3b8; margin: 0; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+    .app-brand h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; margin: 0; color: #fff; }
+    .app-brand p { font-size: 0.7rem; color: #94a3b8; margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
     .user-profile { display: flex; align-items: center; gap: 16px; }
     .notification-bell { position: relative; color: #94a3b8; cursor: pointer; transition: 0.2s; }
@@ -90,16 +95,60 @@
       display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: 0.9rem; color: #fff;
       cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: 0.2s;
     }
+    .avatar:hover { border-color: rgba(255,255,255,0.3); }
 
     /* ==========================================
-       2. NAVEGAÇÃO DE ABAS (CORREÇÃO DE BUG MOBILE)
+       2. CONTROLE DE MÊS (GLOBAL & CENTRALIZADO)
+       ========================================== */
+    .global-period-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px auto;
+      max-width: 1100px;
+      padding: 0 16px;
+      z-index: 990;
+    }
+
+    .period-pill {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 6px 8px;
+      border-radius: 100px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .period-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.05); color: #fff;
+      border: 1px solid rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: 0.2s;
+    }
+    .period-btn:hover { background: #3b82f6; border-color: #3b82f6; box-shadow: 0 0 15px rgba(59,130,246,0.4); }
+    .period-btn:active { transform: scale(0.9); }
+
+    .period-info { display: flex; flex-direction: column; align-items: center; min-width: 120px; }
+    .period-caption { font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; font-weight: 600; }
+    .live-pulse { width: 6px; height: 6px; border-radius: 50%; background: #10b981; box-shadow: 0 0 8px #10b981; animation: pulse 2s infinite ease-in-out; }
+    @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.3); } 100% { opacity: 1; transform: scale(1); } }
+    .period-value { font-weight: 800; color: #f8fafc; font-size: 1rem; margin-top: 2px; letter-spacing: 0.5px;}
+
+    /* ==========================================
+       3. NAVEGAÇÃO DE ABAS (DESKTOP & MOBILE BOTTOM)
        ========================================== */
     .app-tabs-wrapper {
       position: sticky;
-      top: calc(env(safe-area-inset-top, 12px) + 76px); /* Fica logo abaixo do header */
-      z-index: 999;
-      padding: 8px 16px 16px;
+      top: calc(env(safe-area-inset-top, 12px) + 74px);
+      z-index: 998;
+      padding: 0 16px 20px;
     }
 
     .app-tabs {
@@ -109,62 +158,48 @@
       gap: 8px;
       max-width: 1100px;
       margin: 0 auto;
-      padding: 8px;
-      background: rgba(15, 23, 42, 0.75);
+      padding: 6px;
+      background: rgba(15, 23, 42, 0.7);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border-radius: 18px;
+      border-radius: 16px;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      
-      /* Engenharia de Scroll Suave para Celular */
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
-      scrollbar-width: none; /* Firefox */
     }
-    .app-tabs::-webkit-scrollbar { display: none; } /* Chrome/Safari */
-    .app-tabs::after { content: ''; min-width: 1px; } /* Spacer invisível pro scroll */
+    .app-tabs::-webkit-scrollbar { display: none; }
 
     .tab-btn {
-      flex: 1 0 auto; /* Impede esmagamento */
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 20px;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: #94a3b8;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      flex: 1 0 auto;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 20px; border-radius: 12px; border: 1px solid transparent;
+      background: transparent; color: #94a3b8; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s ease; position: relative;
     }
     
-    /* GATILHO BLINDADO: Resolve o bug de não conseguir clicar */
+    /* PROTEÇÃO CONTRA CLIQUE FALSO NO SVG */
     .tab-btn * { pointer-events: none; }
 
     .tab-btn:hover { color: #f8fafc; background: rgba(255, 255, 255, 0.03); }
     .tab-btn.active {
       background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(59, 130, 246, 0.15));
-      color: #fff;
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #fff; border: 1px solid rgba(16, 185, 129, 0.3);
       box-shadow: 0 8px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
     }
 
-    /* Controle de Telas (SPA) */
     .tab-panel { display: none; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; }
     .tab-panel.active { display: block; opacity: 1; transform: translateY(0); animation: fadeIn 0.4s ease-out forwards; }
     @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
     /* ==========================================
-       3. COMPONENTES VISUAIS (GLASS CARDS & GRIDS)
+       4. COMPONENTES VISUAIS E FORÇAS DE OVERFLOW
        ========================================== */
-    .app-main {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 0 16px 40px;
+    .app-main { max-width: 1140px; margin: 0 auto; padding: 0 16px 40px; }
+
+    /* FORÇA ABSOLUTA PARA NÃO CORTAR OS MENUS DROPDOWN DOS PRODUTOS */
+    .glass-card, .box-card, .cat-list, .imp3d-list {
+      overflow: visible !important;
     }
 
     .glass-card {
@@ -172,47 +207,42 @@
       background: rgba(15, 23, 42, 0.55);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 24px;
       padding: 24px;
       box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
       transition: 0.3s ease;
-      overflow: hidden;
     }
     .glass-card::before {
       content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
-      z-index: 1;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      z-index: 1; pointer-events: none; border-radius: 24px 24px 0 0;
     }
-    .glass-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.12); box-shadow: 0 15px 35px -5px rgba(0,0,0,0.6); }
 
-    /* Estilização de Tabelas Corporativas */
+    /* Estilização de Tabelas de Alta Performance */
     .table-wrapper {
-      width: 100%; overflow-x: auto;
-      border-radius: 16px; border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(2, 6, 23, 0.6); backdrop-filter: blur(10px);
+      width: 100%; overflow-x: auto; border-radius: 16px; 
+      border: 1px solid rgba(255,255,255,0.08); background: rgba(2, 6, 23, 0.6); 
+      backdrop-filter: blur(10px); -webkit-overflow-scrolling: touch;
     }
-    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left; }
-    thead th {
-      padding: 16px; background: rgba(15, 23, 42, 0.95); color: #94a3b8;
-      font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-      font-size: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.08); white-space: nowrap;
-    }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; }
+    thead th { padding: 16px; background: rgba(15, 23, 42, 0.95); color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.7rem; border-bottom: 1px solid rgba(255,255,255,0.08); white-space: nowrap; }
     tbody td { padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.03); color: #f8fafc; white-space: nowrap; }
     tbody tr:hover { background: rgba(255,255,255,0.02); }
     tbody tr:last-child td { border-bottom: none; }
 
     /* Inputs Premium */
-    input[type="text"], input[type="number"], input[type="date"], select {
-      width: 100%; padding: 14px 16px; border-radius: 14px;
-      background: rgba(2, 6, 23, 0.6); border: 1px solid rgba(255,255,255,0.1);
-      color: #fff; font-size: 0.95rem; font-family: inherit;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); transition: 0.2s;
+    input[type="text"], input[type="number"], select {
+      width: 100%; padding: 14px 16px; border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.08);
+      color: #fff; font-size: 0.95rem; font-family: inherit; transition: 0.2s;
     }
     input:focus, select:focus {
-      outline: none; border-color: #10b981; background: rgba(15, 23, 42, 0.8);
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 0 0 4px rgba(16, 185, 129, 0.2);
+      outline: none; border-color: #3b82f6; background: rgba(15, 23, 42, 0.8);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
     }
+    input::placeholder { color: rgba(148, 163, 184, 0.4); }
+    input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
     /* Botões Padrão App */
     .btn-primary {
@@ -226,23 +256,43 @@
     .btn-primary:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 12px 25px rgba(16, 185, 129, 0.4); }
     .btn-primary:active { transform: translateY(1px) scale(0.98); }
 
-    /* Indicador LIVE */
-    .live-pulse { width: 8px; height: 8px; border-radius: 50%; background: #10b981; box-shadow: 0 0 12px #10b981; animation: pulse-glow 2s infinite ease-in-out; }
-    @keyframes pulse-glow { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.3); } 100% { opacity: 1; transform: scale(1); } }
-
     /* ==========================================
-       4. MOBILE RESPONSIVE TWEAKS
+       5. MOBILE BOTTOM NAVIGATION (A Mágica)
        ========================================== */
     @media (max-width: 768px) {
       .app-header-wrapper { padding: 8px 12px 0; }
       .app-header { padding: 10px 16px; border-radius: 20px; }
       .app-brand h1 { font-size: 1.1rem; }
-      .user-profile { gap: 10px; }
       
-      .app-tabs-wrapper { padding: 4px 12px 12px; top: calc(env(safe-area-inset-top, 12px) + 64px); }
-      .app-tabs { padding: 6px; border-radius: 16px; gap: 4px; }
-      .tab-btn { padding: 10px 16px; font-size: 0.85rem; }
+      .global-period-wrapper { margin: 10px auto 20px; }
+      .period-pill { padding: 4px 6px; width: 100%; justify-content: space-between; border-radius: 16px; }
+      
+      /* Oculta as abas no topo e as joga para o rodapé perfeitamente */
+      .app-tabs-wrapper {
+        position: fixed;
+        bottom: 0; top: auto; left: 0; right: 0;
+        padding: 0; margin: 0; z-index: 9999;
+      }
+      .app-tabs {
+        border-radius: 0; border: none; border-top: 1px solid rgba(255,255,255,0.08);
+        background: rgba(2, 6, 23, 0.85);
+        backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+        padding: 10px 8px max(16px, env(safe-area-inset-bottom));
+        justify-content: space-around;
+        box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
+      }
+      .tab-btn {
+        flex-direction: column; gap: 4px; padding: 6px; font-size: 0.65rem; border-radius: 12px;
+      }
+      .tab-btn svg { width: 22px; height: 22px; margin: 0 !important; }
+      .tab-btn.active {
+        background: transparent !important; border: none !important; box-shadow: none !important;
+        color: #10b981;
+      }
+      .tab-btn.active svg { fill: rgba(16,185,129,0.15); stroke: #10b981; }
 
+      /* Adiciona respiro no final da página para o menu flutuante não cobrir os botões de salvar */
+      .app-main { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
       .glass-card { padding: 16px; border-radius: 20px; }
     }
   </style>
@@ -274,6 +324,18 @@
     </header>
   </div>
 
+  <div class="global-period-wrapper">
+    <div class="period-pill">
+      <button id="prev-month" class="period-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+      <div class="period-info">
+        <span class="period-caption"><div class="live-pulse"></div> Fluxo Ativo</span>
+        <span id="month-index" style="display:none;">0</span>
+        <span id="month-label" class="period-value"></span>
+      </div>
+      <button id="next-month" class="period-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+    </div>
+  </div>
+
   <div class="app-tabs-wrapper">
     <nav class="tabs app-tabs">
       <button data-tab="dashboard" class="tab-btn active">
@@ -286,11 +348,11 @@
       </button>
       <button data-tab="filamentos" class="tab-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
-        <span>Matéria-Prima</span>
+        <span>Insumos</span>
       </button>
       <button data-tab="estoque" class="tab-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-        <span>Lotes & Estoque</span>
+        <span>Estoque</span>
       </button>
       <button data-tab="vendas" class="tab-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
@@ -307,48 +369,39 @@
     
     <section id="tab-dashboard" class="tab-panel active">
       
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; margin-bottom:24px; background:rgba(15,23,42,0.6); border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:12px; box-shadow:0 10px 20px rgba(0,0,0,0.2);">
-        <div style="display:flex; align-items:center; gap:16px;">
-          <button id="prev-month" style="width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,0.1); background:rgba(2,6,23,0.8); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
-          <div style="display:flex; flex-direction:column; align-items:center; min-width:120px;">
-            <span style="font-size:0.65rem; color:#94a3b8; text-transform:uppercase; letter-spacing:1.5px; display:flex; align-items:center; gap:6px;">
-              <div class="live-pulse"></div> Fluxo Caixa
-            </span>
-            <span id="month-index" style="display:none;">0</span>
-            <span id="month-label" style="font-weight:800; color:#f8fafc; font-size:1.1rem; margin-top:2px;"></span>
-          </div>
-          <button id="next-month" style="width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,0.1); background:rgba(2,6,23,0.8); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h2 style="font-size:1.5rem; font-weight:800; color:#fff; margin:0;">Dashboard Geral</h2>
         </div>
-        
-        <label style="cursor:pointer; display:flex; align-items:center; gap:8px; background:rgba(0,0,0,0.4); padding:10px 16px; border-radius:14px; border:1px solid rgba(255,255,255,0.08); transition: 0.2s;">
-          <input type="checkbox" id="dash-toggle-alltime" style="width:18px; height:18px; accent-color:#10b981;"> 
-          <span style="font-size:0.85rem; color:#f8fafc; font-weight:600;">Consolidado (All Time)</span>
+        <label style="cursor:pointer; display:flex; align-items:center; gap:8px; background:rgba(0,0,0,0.3); padding:8px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.08); transition:0.2s;">
+          <input type="checkbox" id="dash-toggle-alltime" style="width:16px; height:16px; accent-color:#10b981;"> 
+          <span style="font-size:0.8rem; color:#f8fafc; font-weight:600;">Consolidar Todo o Período</span>
         </label>
       </div>
 
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; margin-bottom:24px;">
         
-        <div class="glass-card" style="padding:24px;">
+        <div class="glass-card">
           <svg style="position:absolute; right:-20px; bottom:-20px; opacity:0.03; width:120px; height:120px; color:#3b82f6;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
           <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
             <div style="padding:8px; background:rgba(59,130,246,0.15); border-radius:10px; color:#3b82f6;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
             <span style="font-size:0.85rem; font-weight:600; color:#94a3b8; text-transform:uppercase; letter-spacing:0.5px;">Receita Bruta</span>
           </div>
           <div id="dash-imp-gross" style="font-size:2rem; font-weight:800; color:#fff; line-height:1; margin-bottom:8px;">R$ 0,00</div>
-          <div style="display:inline-block; font-size:0.75rem; font-weight:700; padding:4px 8px; border-radius:8px; background:rgba(255,255,255,0.05); color:#94a3b8;"><span class="dash-time-label" style="background:transparent; padding:0; margin:0; color:inherit;"></span></div>
+          <div style="display:inline-block; font-size:0.7rem; font-weight:700; padding:4px 8px; border-radius:8px; background:rgba(255,255,255,0.05); color:#94a3b8;"><span class="dash-time-label" style="background:transparent; padding:0; margin:0; color:inherit;"></span></div>
         </div>
 
-        <div class="glass-card" style="padding:24px; border-color:rgba(16,185,129,0.3); box-shadow:0 10px 40px rgba(16,185,129,0.08);">
+        <div class="glass-card" style="border-color:rgba(16,185,129,0.3); box-shadow:0 10px 40px rgba(16,185,129,0.08);">
           <svg style="position:absolute; right:-20px; bottom:-20px; opacity:0.03; width:120px; height:120px; color:#10b981;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
           <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
             <div style="padding:8px; background:rgba(16,185,129,0.15); border-radius:10px; color:#10b981;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg></div>
             <span style="font-size:0.85rem; font-weight:600; color:#94a3b8; text-transform:uppercase; letter-spacing:0.5px;">Lucro Líquido Real</span>
           </div>
           <div id="dash-imp-profit" style="font-size:2rem; font-weight:800; color:#10b981; line-height:1; margin-bottom:8px;">R$ 0,00</div>
-          <div style="display:inline-block; font-size:0.75rem; font-weight:700; padding:4px 8px; border-radius:8px; background:rgba(16,185,129,0.1); color:#10b981;">Margem Limpa Extraída</div>
+          <div style="display:inline-block; font-size:0.7rem; font-weight:700; padding:4px 8px; border-radius:8px; background:rgba(16,185,129,0.1); color:#10b981;">Margem Limpa Extraída</div>
         </div>
 
-        <div class="glass-card" style="padding:24px;">
+        <div class="glass-card">
           <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
             <div style="padding:8px; background:rgba(245,158,11,0.15); border-radius:10px; color:#f59e0b;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></div>
             <span style="font-size:0.85rem; font-weight:600; color:#94a3b8; text-transform:uppercase; letter-spacing:0.5px;">Gargalos e Taxas</span>
@@ -358,7 +411,7 @@
             <strong id="dash-imp-fees" style="font-size:1.1rem; color:#fff;">R$ 0,00</strong>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.05);">
-            <span style="font-size:0.8rem; color:#94a3b8;">Custo de Material (Peças)</span>
+            <span style="font-size:0.8rem; color:#94a3b8;">Custo de Material</span>
             <strong id="dash-imp-mat" style="font-size:1.1rem; color:#fff;">R$ 0,00</strong>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:baseline;">
@@ -370,72 +423,72 @@
 
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(350px, 1fr)); gap:16px; margin-bottom:16px;">
         
-        <div class="glass-card" style="padding:24px;">
+        <div class="glass-card">
           <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:4px;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
             Distribuição de Custos
           </h3>
-          <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:16px;">Análise para onde o capital operacional está escoando.</p>
-          <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:16px; height:240px;">
+          <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:16px;">Para onde o capital operacional escoa.</p>
+          <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.05); border-radius:16px; padding:16px; min-height:220px; max-height:280px; position:relative;">
             <canvas id="imp3d-costs-chart"></canvas>
           </div>
         </div>
         
-        <div class="glass-card" style="padding:24px;">
-          <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
-            Saldos em Wallets Físicas
-          </h3>
-          <div id="dash-account-balances" style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.05); padding:16px; border-radius:16px; margin-bottom:12px; display:flex; flex-direction:column; gap:10px;">
-            </div>
-          <button style="width:100%; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.03); color:#fff; font-weight:600; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'" onclick="openTransferForm()">🔄 Realocar Fundos Internos</button>
+        <div class="glass-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin:0;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+              Saldos em Wallets Físicas
+            </h3>
+            <button onclick="openTransferForm()" style="padding:6px 12px; border-radius:10px; font-size:0.75rem; font-weight:600; cursor:pointer; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff; transition:0.2s;">🔄 Realocar</button>
+          </div>
+          <div id="dash-account-balances" style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.05); padding:16px; border-radius:16px; margin-bottom:20px; display:flex; flex-direction:column; gap:10px;">
+          </div>
 
-          <div style="height:1px; background:rgba(255,255,255,0.1); margin:24px 0;"></div>
-
-          <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+          <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:12px;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path></svg>
             Capital de Giro (Reinvestimento)
           </h3>
-          <div id="dash-fund-status" style="padding:12px 16px; border-radius:12px; margin-bottom:12px; font-size:0.85rem; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.05);"></div>
+          <div id="dash-fund-status" style="padding:10px 14px; border-radius:12px; margin-bottom:12px; font-size:0.8rem; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.05);"></div>
           
           <div style="background:linear-gradient(135deg, rgba(15,23,42,0.8), rgba(2,6,23,0.9)); padding:16px; border-radius:16px; border:1px solid rgba(255,255,255,0.05);">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-              <span style="font-size:0.85rem; color:#94a3b8;">Saldo Disponível p/ Compras</span>
+              <span style="font-size:0.85rem; color:#94a3b8;">Saldo Provisão Insumos</span>
               <strong id="dash-fund-balance" style="font-size:1.2rem; color:#fff;">R$ 0,00</strong>
             </div>
             <div style="display:flex; gap:12px; font-size:0.8rem; color:#94a3b8; padding-top:12px; border-top:1px solid rgba(255,255,255,0.05);">
-              <div style="flex:1;">Provisão: <strong id="dash-fund-in" style="color:#10b981;">R$ 0,00</strong></div>
-              <div style="flex:1;">Consumo: <strong id="dash-fund-out" style="color:#ef4444;">R$ 0,00</strong></div>
+              <div style="flex:1;">IN: <strong id="dash-fund-in" style="color:#10b981;">R$ 0,00</strong></div>
+              <div style="flex:1;">OUT: <strong id="dash-fund-out" style="color:#ef4444;">R$ 0,00</strong></div>
             </div>
           </div>
-          <button class="btn-primary" onclick="openStoreExpenseForm()" style="width:100%; border-radius:12px; margin-top:12px;">🛍️ Lançar Despesa de Material</button>
+          <button class="btn-primary" onclick="openStoreExpenseForm()" style="width:100%; border-radius:12px; margin-top:12px; padding:12px;">🛍️ Lançar Despesa de Material</button>
         </div>
       </div>
       
-      <div class="glass-card" style="padding:24px; margin-top:16px;">
+      <div class="glass-card" style="margin-top:16px;">
         <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:4px;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
           Linha do Tempo (Receita vs Lucro Real)
         </h3>
-        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:20px;">Acompanhamento de performance corporativa dos últimos 6 meses de faturamento.</p>
-        <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:16px; height:240px;">
+        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:20px;">Acompanhamento histórico dos últimos 6 meses de faturamento.</p>
+        <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.05); border-radius:16px; padding:16px; min-height:180px; max-height:260px; position:relative;">
           <canvas id="imp3d-trend-chart"></canvas>
         </div>
       </div>
 
-      <div class="glass-card" style="padding:24px; margin-top:16px;">
+      <div class="glass-card" style="margin-top:16px;">
         <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:20px;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fcd34d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
           Ranking: Top Produtos <span class="dash-time-label" style="margin:0; font-size:0.65rem;"></span>
         </h3>
-        <div style="width:100%; overflow-x:auto; border-radius:16px; border:1px solid rgba(255,255,255,0.08); background:rgba(2,6,23,0.6);">
-          <table style="width:100%; border-collapse:collapse; text-align:left;">
+        <div class="table-wrapper">
+          <table style="width:100%; border-collapse:collapse;">
             <thead>
-              <tr style="background:rgba(15,23,42,0.8); text-transform:uppercase; font-size:0.7rem; color:#94a3b8; letter-spacing:0.5px;">
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Identificação da Peça</th>
-                <th style="padding:16px; text-align:center; border-bottom:1px solid rgba(255,255,255,0.08);">Saída (Un)</th>
-                <th style="padding:16px; text-align:right; border-bottom:1px solid rgba(255,255,255,0.08);">Faturamento</th>
-                <th style="padding:16px; text-align:right; color:#10b981; border-bottom:1px solid rgba(255,255,255,0.08);">Lucro Limpo</th>
+              <tr>
+                <th>Identificação da Peça</th>
+                <th style="text-align:center;">Saída (Un)</th>
+                <th style="text-align:right;">Faturamento</th>
+                <th style="text-align:right; color:#10b981;">Lucro Limpo</th>
               </tr>
             </thead>
             <tbody id="dash-top-products-body"></tbody>
@@ -446,11 +499,11 @@
 
     <section id="tab-produtos" class="tab-panel">
       <div style="margin-bottom:24px;">
-        <h2 style="font-size:1.5rem; font-weight:800; color:#fff; margin-bottom:6px;">Catálogo Engine</h2>
+        <h2 style="font-size:1.5rem; font-weight:800; color:#fff; margin-bottom:4px;">Catálogo Engine</h2>
         <p style="font-size:0.9rem; color:#94a3b8;">Modele seu portfólio, estruture caixas organizadoras e dimensione custos matemáticos.</p>
       </div>
       
-      <div class="glass-card" style="padding:24px; margin-bottom:16px;">
+      <div class="glass-card" style="margin-bottom:16px;">
          <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:20px;">
            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
            Setores & Caixas (<span id="imp3d-count-boxes">0</span>)
@@ -458,59 +511,35 @@
          <div id="box-list" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:16px;"></div>
       </div>
 
-      <div class="glass-card" style="padding:24px; margin-bottom:16px;">
+      <div class="glass-card" style="margin-bottom:16px;">
         <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:20px;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           Forjar Novo Produto
         </h3>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">
-          <div style="display:flex; flex-direction:column; gap:6px;">
-            <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Caixa Organizadora</label>
-            <select id="prod-box" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;"></select>
-          </div>
-          <div style="display:flex; flex-direction:column; gap:6px;">
-            <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Nomenclatura da Peça</label>
-            <input type="text" id="prod-name" placeholder="Ex: Vaso Decorativo Low Poly" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;">
-          </div>
-          <div style="display:flex; flex-direction:column; gap:6px;">
-            <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Tempo na Máquina (Horas)</label>
-            <input type="number" step="0.1" id="prod-hours" placeholder="Ex: 4.5" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;">
-          </div>
-          <div style="display:flex; flex-direction:column; gap:6px;">
-            <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Consumo Plástico (g)</label>
-            <input type="number" step="0.1" id="prod-fil-g" placeholder="Ex: 120" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;">
-          </div>
-          <div style="display:flex; flex-direction:column; gap:6px;">
-            <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Custo Energia/h (R$)</label>
-            <input type="number" step="0.01" id="prod-energy-h" placeholder="Ex: 0.85" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;">
-          </div>
-          <div style="display:flex; flex-direction:column; gap:6px;">
-            <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Embalagem/Unid. (R$)</label>
-            <input type="number" step="0.01" id="prod-pack" placeholder="Ex: 2.50" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;">
-          </div>
-          <div style="display:flex; flex-direction:column; gap:6px;">
-            <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Preço Venda Base (R$)</label>
-            <input type="number" step="0.01" id="prod-price" placeholder="Ex: 45.00" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;">
-          </div>
-          <div style="display:flex; flex-direction:column; gap:6px; grid-column:1/-1;">
-            <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Notas Técnicas (Specs)</label>
-            <input type="text" id="prod-desc" placeholder="Ex: Infill 15%, Gyroid, sem suportes." style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;">
-          </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px;">
+          <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Caixa</label><select id="prod-box"></select></div>
+          <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Nome da Peça</label><input type="text" id="prod-name" placeholder="Ex: Vaso Decorativo"></div>
+          <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Tempo na Máquina (Hr)</label><input type="number" step="0.1" id="prod-hours" placeholder="Ex: 4.5"></div>
+          <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Consumo (g)</label><input type="number" step="0.1" id="prod-fil-g" placeholder="Ex: 120"></div>
+          <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Energia/h (R$)</label><input type="number" step="0.01" id="prod-energy-h" placeholder="Ex: 0.85"></div>
+          <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Embalagem (R$)</label><input type="number" step="0.01" id="prod-pack" placeholder="Ex: 2.50"></div>
+          <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Preço Sugerido (R$)</label><input type="number" step="0.01" id="prod-price" placeholder="Ex: 45.00"></div>
+          <div style="grid-column:1/-1;"><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Notas Técnicas</label><input type="text" id="prod-desc" placeholder="Ex: Infill 15%, sem suportes."></div>
           <div style="grid-column:1/-1; margin-top:8px; display:flex; justify-content:flex-end;">
-            <button class="btn-primary" onclick="handleAddProduct()" style="border-radius:12px; padding:14px 24px;">Inserir no Catálogo</button>
+            <button class="btn-primary" onclick="handleAddProduct()">Inserir no Catálogo</button>
           </div>
         </div>
       </div>
 
-      <div class="glass-card" style="padding:24px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:16px;">
+      <div class="glass-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:16px;">
           <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin:0;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
             Catálogo Ativo (<span id="imp3d-count-prod" style="color:#10b981;">0</span>)
           </h3>
           <div style="position:relative; width:100%; max-width:320px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); color:#94a3b8;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" id="prod-search" placeholder="Buscar peça ou caixa..." style="width:100%; padding:14px 16px 14px 44px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:999px; color:#fff; box-shadow:inset 0 2px 4px rgba(0,0,0,0.2); font-family:inherit;" onkeyup="renderProducts()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#94a3b8;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="prod-search" placeholder="Buscar peça ou caixa..." style="padding-left:42px; border-radius:999px;" onkeyup="renderProducts()">
           </div>
         </div>
         <div id="prod-list" style="display:flex; flex-direction:column; gap:16px;"></div>
@@ -523,35 +552,23 @@
         <p style="font-size:0.9rem; color:#94a3b8;">Auditoria de insumos, custeio fracionado por grama e baixa física de rolos.</p>
       </div>
       
-      <div class="glass-card" style="padding:24px; margin-bottom:16px;">
+      <div class="glass-card" style="margin-bottom:16px;">
         <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:20px;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
           Entrada de Lote Físico
         </h3>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">
-          <div style="display:flex; flex-direction:column; gap:6px;">
-            <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Cor Identificadora</label>
-            <input type="text" id="fil-color" placeholder="Ex: Preto Matte" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff;">
-          </div>
-          <div style="display:flex; flex-direction:column; gap:6px;">
-            <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Material / Marca</label>
-            <input type="text" id="fil-type" placeholder="Ex: PLA Voolt3D" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff;">
-          </div>
-          <div style="display:flex; flex-direction:column; gap:6px;">
-            <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Peso (Líquido em Gramas)</label>
-            <input type="number" step="0.1" id="fil-weight" value="1000" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff;">
-          </div>
-          <div style="display:flex; flex-direction:column; gap:6px;">
-            <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Investimento no Rolo (R$)</label>
-            <input type="number" step="0.01" id="fil-price" placeholder="Ex: 85.00" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff;">
-          </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px;">
+          <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Cor Identificadora</label><input type="text" id="fil-color" placeholder="Ex: Preto Matte"></div>
+          <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Material / Marca</label><input type="text" id="fil-type" placeholder="Ex: PLA Voolt3D"></div>
+          <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Peso Líquido (g)</label><input type="number" step="0.1" id="fil-weight" value="1000"></div>
+          <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Investimento (R$)</label><input type="number" step="0.01" id="fil-price" placeholder="Ex: 85.00"></div>
           <div style="grid-column:1/-1; margin-top:8px; display:flex; justify-content:flex-end;">
-            <button class="btn-primary" onclick="handleAddFilament()" style="border-radius:12px; padding:14px 24px;">Registrar no Almoxarifado</button>
+            <button class="btn-primary" onclick="handleAddFilament()">Registrar no Almoxarifado</button>
           </div>
         </div>
       </div>
 
-      <div class="glass-card" style="padding:24px;">
+      <div class="glass-card">
          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:16px;">
            <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin:0;">
              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
@@ -570,74 +587,44 @@
       </div>
       
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px; margin-bottom:16px;">
-        <div class="glass-card" style="padding:24px;">
+        <div class="glass-card">
           <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:20px;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
             Consolidar Produção
           </h3>
           <div style="display:flex; flex-direction:column; gap:16px;">
-            <div style="display:flex; flex-direction:column; gap:6px;">
-              <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Projeto Base</label>
-              <select id="stock-prod" onchange="populateImp3dStockSelects()" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;"></select>
-            </div>
-            <div style="display:flex; flex-direction:column; gap:6px;">
-              <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Variação Produzida</label>
-              <select id="stock-variant" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;"></select>
-            </div>
-            <div style="display:flex; flex-direction:column; gap:6px;">
-              <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Rolo Consumido</label>
-              <select id="stock-fil" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;"></select>
-            </div>
-            <div style="display:flex; flex-direction:column; gap:6px;">
-              <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Unidades Geradas</label>
-              <input type="number" step="1" id="stock-qty" value="1" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;">
-            </div>
-            <button class="btn-primary" style="margin-top:8px; border-radius:12px; padding:14px;" onclick="stockProduct(document.getElementById('stock-prod').value, document.getElementById('stock-variant').value, document.getElementById('stock-fil').value, document.getElementById('stock-qty').value)">
-              Trancar Custo & Estocar
-            </button>
+            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Projeto Base</label><select id="stock-prod" onchange="populateImp3dStockSelects()"></select></div>
+            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Variação Produzida</label><select id="stock-variant"></select></div>
+            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Rolo Consumido</label><select id="stock-fil"></select></div>
+            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Unidades Geradas</label><input type="number" step="1" id="stock-qty" value="1"></div>
+            <button class="btn-primary" style="margin-top:8px; width:100%;" onclick="stockProduct(document.getElementById('stock-prod').value, document.getElementById('stock-variant').value, document.getElementById('stock-fil').value, document.getElementById('stock-qty').value)">Trancar Custo & Estocar</button>
           </div>
         </div>
 
-        <div class="glass-card" style="padding:24px;">
+        <div class="glass-card">
           <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:20px;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
             Checkout de Estoque
           </h3>
           <div style="display:flex; flex-direction:column; gap:16px;">
-            <div style="display:flex; flex-direction:column; gap:6px;">
-              <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Selecionar Lote Disponível</label>
-              <select id="sell-stock-item" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;"></select>
-            </div>
-            <div style="display:flex; flex-direction:column; gap:6px;">
-              <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Qtd. Vendida</label>
-              <input type="number" step="1" id="sell-stock-qty" value="1" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;">
-            </div>
-            <div style="display:flex; flex-direction:column; gap:6px;">
-              <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Destino da Receita (Wallet)</label>
-              <select id="sell-stock-acc" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;"></select>
-            </div>
-            <button class="btn-primary" style="margin-top:8px; border-radius:12px; padding:14px; background:linear-gradient(135deg, #3b82f6, #1e3a8a); box-shadow:0 12px 24px rgba(59,130,246,0.2);" onclick="sellFromStock(document.getElementById('sell-stock-item').value, document.getElementById('sell-stock-qty').value)">
-              Processar Saída
-            </button>
+            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Selecionar Lote Disponível</label><select id="sell-stock-item"></select></div>
+            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Qtd. Vendida</label><input type="number" step="1" id="sell-stock-qty" value="1"></div>
+            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Destino da Receita</label><select id="sell-stock-acc"></select></div>
+            <button class="btn-primary" style="margin-top:8px; width:100%; background:linear-gradient(135deg, #3b82f6, #1e3a8a); border-color:rgba(59,130,246,0.5); box-shadow:0 8px 20px rgba(59,130,246,0.2);" onclick="sellFromStock(document.getElementById('sell-stock-item').value, document.getElementById('sell-stock-qty').value)">Processar Saída</button>
           </div>
         </div>
       </div>
 
-      <div class="glass-card" style="padding:24px;">
+      <div class="glass-card">
         <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:20px;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
           Inventário Consolidado (Lotes)
         </h3>
-        <div style="width:100%; overflow-x:auto; border-radius:16px; border:1px solid rgba(255,255,255,0.08); background:rgba(2,6,23,0.6);">
-          <table style="width:100%; border-collapse:collapse; text-align:left;">
+        <div class="table-wrapper">
+          <table>
             <thead>
-              <tr style="background:rgba(15,23,42,0.8); text-transform:uppercase; font-size:0.7rem; color:#94a3b8; letter-spacing:0.5px;">
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Referência</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Atributo</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Disp.</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Custo Base (Un)</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Ativo Retido</th>
-                <th style="padding:16px; text-align:right; border-bottom:1px solid rgba(255,255,255,0.08);">Ação</th>
+              <tr>
+                <th>Referência</th><th>Atributo</th><th>Disp.</th><th>Custo Base (Un)</th><th>Ativo Retido</th><th style="text-align:right;">Ação</th>
               </tr>
             </thead>
             <tbody id="imp3d-stock-body"></tbody>
@@ -649,13 +636,13 @@
     <section id="tab-vendas" class="tab-panel">
       <div style="margin-bottom:24px;">
         <h2 style="font-size:1.5rem; font-weight:800; color:#fff; margin-bottom:4px;">Transações & Auditoria</h2>
-        <p style="font-size:0.9rem; color:#94a3b8;">Monitoramento forense de todo capital injetado, taxas recolhidas e margem limpa.</p>
+        <p style="font-size:0.9rem; color:#94a3b8;">Monitoramento forense de capital injetado, taxas recolhidas e margem limpa.</p>
       </div>
       
-      <div class="glass-card" style="padding:24px; margin-bottom:16px;">
+      <div class="glass-card" style="margin-bottom:16px;">
         <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:16px;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-          DRE - Demonstrativo de Resultado
+          DRE - Demonstrativo de Resultado (Período)
         </h3>
         <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.05); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:12px;">
           <div style="display:flex; justify-content:space-between; font-size:0.95rem;">
@@ -676,28 +663,19 @@
         </div>
       </div>
 
-      <div class="glass-card" style="padding:24px; margin-bottom:16px;">
+      <div class="glass-card" style="margin-bottom:16px;">
         <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:20px;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
           Ledger de Vendas (Log Imutável)
         </h3>
-        <div style="width:100%; overflow-x:auto; border-radius:16px; border:1px solid rgba(255,255,255,0.08); background:rgba(2,6,23,0.6);">
-          <table style="min-width: 1200px; width:100%; border-collapse:collapse; text-align:left;">
+        <div class="table-wrapper">
+          <table style="min-width: 1100px;">
             <thead>
-              <tr style="background:rgba(15,23,42,0.8); text-transform:uppercase; font-size:0.7rem; color:#94a3b8; letter-spacing:0.5px;">
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Timestamp</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Ativo / Peça</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Cor / Mat.</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Vol.</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Rec. Bruta</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Fee (Plat.)</th>
-                <th style="padding:16px; color:#fff; border-bottom:1px solid rgba(255,255,255,0.08);">Net (Conta)</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Mat.</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Ene.</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Pack.</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Caixa Fundo</th>
-                <th style="padding:16px; color:#10b981; font-weight:800; border-bottom:1px solid rgba(255,255,255,0.08);">Lucro GAP</th>
-                <th style="padding:16px; text-align:right; border-bottom:1px solid rgba(255,255,255,0.08);">Ações</th>
+              <tr>
+                <th>Timestamp</th><th>Ativo / Peça</th><th>Cor/Mat.</th><th>Vol.</th>
+                <th>Rec. Bruta</th><th>Fee (Plat.)</th><th style="color:#fff;">Net (Conta)</th>
+                <th>Mat.</th><th>Ene.</th><th>Pack.</th><th>Fundo Reinv.</th>
+                <th style="color:#10b981; font-weight:800;">Lucro GAP</th><th style="text-align:right;">Ações</th>
               </tr>
             </thead>
             <tbody id="imp3d-sales-body"></tbody>
@@ -705,21 +683,18 @@
         </div>
       </div>
 
-      <div class="glass-card" style="padding:24px; border-color:rgba(245,158,11,0.3);">
+      <div class="glass-card" style="border-color:rgba(245,158,11,0.3);">
         <h3 style="font-size:1.05rem; font-weight:700; color:#f59e0b; display:flex; align-items:center; gap:8px; margin-bottom:10px;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
           Sangria Operacional (Waste Log)
         </h3>
-        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:20px;">Testes, suportes e falhas que deduzem do lucro operacional direto.</p>
-        <div style="width:100%; overflow-x:auto; border-radius:16px; border:1px solid rgba(255,255,255,0.08); background:rgba(2,6,23,0.6);">
-          <table style="width:100%; border-collapse:collapse; text-align:left;">
+        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:20px;">Testes, suportes e falhas que deduzem do lucro direto do mês.</p>
+        <div class="table-wrapper">
+          <table>
             <thead>
-              <tr style="background:rgba(15,23,42,0.8); text-transform:uppercase; font-size:0.7rem; color:#94a3b8; letter-spacing:0.5px;">
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Data Registro</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Rolo Desfalcado</th>
-                <th style="padding:16px; text-align:right; border-bottom:1px solid rgba(255,255,255,0.08);">Gasto (g)</th>
-                <th style="padding:16px; text-align:right; color:#ef4444; border-bottom:1px solid rgba(255,255,255,0.08);">Impacto (R$)</th>
-                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Causa Raiz</th>
+              <tr>
+                <th>Data Registro</th><th>Rolo Desfalcado</th><th style="text-align:right;">Gasto (g)</th>
+                <th style="text-align:right; color:#ef4444;">Impacto (R$)</th><th>Causa Raiz</th>
               </tr>
             </thead>
             <tbody id="imp3d-losses-body"></tbody>
@@ -735,74 +710,51 @@
       </div>
       
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px; margin-bottom:16px;">
-        <div class="glass-card" style="padding:24px;">
+        <div class="glass-card">
           <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:12px;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             Variáveis de Precificação
           </h3>
-          <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:20px;">Estes dados alimentam a calculadora de lucros a cada checkout.</p>
+          <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:20px;">Estes dados alimentam a calculadora de lucros.</p>
           <div style="display:flex; flex-direction:column; gap:16px;">
-            <div style="display:flex; flex-direction:column; gap:6px;">
-              <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Taxa de Venda (%) - Ex: 0.20</label>
-              <input type="number" step="0.01" id="config-fee-pct" placeholder="0.20" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;">
-            </div>
-            <div style="display:flex; flex-direction:column; gap:6px;">
-              <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Fee Fixo por Transação (R$)</label>
-              <input type="number" step="0.01" id="config-fee-fixed" placeholder="4.00" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;">
-            </div>
-            <div style="display:flex; flex-direction:column; gap:6px;">
-              <label style="font-size:0.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Custo Base de Energia (R$/kWh) <span style="font-weight:normal; opacity:0.7;">(Auto-preenche peças)</span></label>
-              <input type="number" step="0.01" id="config-energy-kwh" placeholder="0.95" style="padding:14px 16px; background:rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; transition:0.2s;">
-            </div>
-            <button id="btn-save-configs" class="btn-primary" style="margin-top:8px; border-radius:12px; padding:14px;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-              Persistir Variáveis
-            </button>
+            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Taxa de Venda (%) - Ex: 0.20</label><input type="number" step="0.01" id="config-fee-pct" placeholder="0.20"></div>
+            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Fee Fixo por Transação (R$)</label><input type="number" step="0.01" id="config-fee-fixed" placeholder="4.00"></div>
+            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Custo Base de Energia (R$/kWh)</label><input type="number" step="0.01" id="config-energy-kwh" placeholder="0.95"></div>
+            <button id="btn-save-configs" class="btn-primary" style="margin-top:8px; width:100%;">Persistir Variáveis</button>
           </div>
         </div>
 
-        <div class="glass-card" style="padding:24px;">
+        <div class="glass-card">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
             <h3 style="font-size:1.05rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin:0;">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
               Wallets Aprovadas
             </h3>
-            <button id="btn-add-account" style="padding:8px 14px; border-radius:10px; font-size:0.8rem; font-weight:600; cursor:pointer; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff; transition:0.2s;">➕ Nova Wallet</button>
+            <button id="btn-add-account" class="btn small" style="background:rgba(255,255,255,0.05); color:#fff; border-radius:10px;">➕ Add Wallet</button>
           </div>
-          <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:20px;">Bancos, Caixas e Plataformas por onde a receita liquida transita.</p>
+          <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:20px;">Bancos, Caixas e Plataformas.</p>
           <div id="config-accounts-list" style="display:flex; flex-direction:column; gap:12px;"></div>
         </div>
       </div>
       
-      <div class="glass-card" style="padding:24px; border-color:rgba(239,68,68,0.2); background:linear-gradient(180deg, rgba(239,68,68,0.04), transparent);">
+      <div class="glass-card" style="border-color:rgba(239,68,68,0.2); background:linear-gradient(180deg, rgba(239,68,68,0.04), transparent);">
         <h3 style="font-size:1.05rem; font-weight:700; color:#ef4444; display:flex; align-items:center; gap:8px; margin-bottom:12px;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
           Data Encryption & Security
         </h3>
-        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:24px;">Seus dados existem apenas localmente (Client-Side) no navegador do dispositivo. Exporte seu ledger para backup frio regularmente.</p>
+        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:24px;">Exporte seu ledger para backup frio regularmente.</p>
         <div style="display:flex; gap:12px; flex-wrap:wrap;">
-          <button onclick="imp3dExport()" style="flex:1; min-width:200px; padding:14px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:0.2s;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            Exportar Snapshot (JSON)
-          </button>
-          
-          <label for="backup-import-input" style="flex:1; min-width:200px; padding:14px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:0.2s; margin:0;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-            Injetar Backup Frio
-          </label>
+          <button onclick="imp3dExport()" class="btn ghost" style="flex:1; min-width:200px; padding:14px; border-radius:12px; color:#fff;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Exportar (JSON)</button>
+          <label for="backup-import-input" class="btn ghost" style="flex:1; min-width:200px; padding:14px; border-radius:12px; color:#fff; cursor:pointer; margin:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg> Injetar Backup</label>
           <input id="backup-import-input" type="file" accept="application/json" style="display: none;" onchange="handleBackupImport(event)" />
-          
-          <button onclick="imp3dClearAll()" style="flex:1; min-width:200px; padding:14px; border-radius:12px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2); color:#ef4444; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:0.2s;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-            Purgar Cluster (Wipe)
-          </button>
+          <button onclick="imp3dClearAll()" class="btn danger" style="flex:1; min-width:200px; padding:14px; border-radius:12px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> Purgar Cluster</button>
         </div>
       </div>
     </section>
 
   </main>
 
-  <footer style="text-align:center; padding:32px 16px; margin-top:20px; border-top:1px solid rgba(255,255,255,0.05);">
+  <footer style="text-align:center; padding:32px 16px; border-top:1px solid rgba(255,255,255,0.05); margin-top:20px;">
     <div style="display:inline-flex; align-items:center; gap:8px; opacity:0.6;">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
       <strong style="color:#f8fafc; font-size:0.8rem;">Gestor 3D Enterprise</strong>
@@ -811,11 +763,10 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-  <script src="state.js?v=4"></script>
-  <script src="configuracoes.js?v=4"></script>
-  <script src="impressora.js?v=4"></script>
-  <script src="app.js?v=4"></script>
+  <script src="state.js?v=5"></script>
+  <script src="configuracoes.js?v=5"></script>
+  <script src="impressora.js?v=5"></script>
+  <script src="app.js?v=5"></script>
 
   <script>
     (function(){
@@ -823,12 +774,9 @@
         document.querySelectorAll('.tab-btn').forEach(btn => {
           btn.classList.toggle('active', btn.dataset.tab === tabName);
         });
-        
         document.querySelectorAll('.tab-panel').forEach(panel => {
           panel.classList.toggle('active', panel.id === 'tab-' + tabName);
         });
-        
-        // Comportamento de App Nativo: ao trocar de tela, volta pro topo.
         window.scrollTo({ top: 0, behavior: 'smooth' }); 
       };
 
