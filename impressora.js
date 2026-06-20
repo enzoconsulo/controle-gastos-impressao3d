@@ -459,23 +459,32 @@ function renderProductBoxes() {
 
     const card = document.createElement('div');
     card.className = 'box-card';
-    card.style.background = 'rgba(255,255,255,0.02)';
-    card.style.border = '1px solid rgba(148,163,184,0.12)';
+    card.style.background = 'rgba(15, 23, 42, 0.4)';
+    card.style.border = '1px solid rgba(255, 255, 255, 0.05)';
+    card.style.transition = 'all 0.3s ease';
     
     card.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div style="display:flex; align-items:center; gap:12px;">
-          <div style="background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.25); border-radius: 12px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(16, 185, 129, 0.15)); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 14px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: inset 0 2px 4px rgba(255,255,255,0.05);">
             ${box.emoji}
           </div>
           <div>
-            <div style="font-weight:700; font-size: 1.05rem;">${box.name}</div>
-            <div style="font-size:0.8rem;color:var(--muted);">${count} produto(s) vinculado(s)</div>
+            <div style="font-weight:700; font-size: 1.1rem; color:#f8fafc; letter-spacing:-0.02em;">${box.name}</div>
+            <div style="font-size:0.8rem; color:#94a3b8; display:flex; align-items:center; gap:4px; margin-top:2px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+              ${count} Itens Vinculados
+            </div>
           </div>
         </div>
-        <div style="display:flex; gap:6px;">
-          <button class="btn small box-edit" data-id="${box.id}">Editar</button>
-          ${box.id !== 'box-default' ? `<button class="btn small box-del" data-id="${box.id}" style="color:var(--danger); border-color:rgba(239,68,68,0.2);">Excluir</button>` : ''}
+        <div style="display:flex; gap:8px;">
+          <button class="btn small box-edit" data-id="${box.id}" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); color:#fff; padding:8px 12px; border-radius:10px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          </button>
+          ${box.id !== 'box-default' ? `
+          <button class="btn small danger box-del" data-id="${box.id}" style="padding:8px 12px; border-radius:10px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          </button>` : ''}
         </div>
       </div>
     `;
@@ -598,10 +607,11 @@ function renderProducts(){
   if(countEl) countEl.textContent = String(filtered.length);
 
   if(!filtered.length){
-    const p = document.createElement('p');
-    p.className='muted';
-    p.textContent = searchTerm ? 'Nenhum produto encontrado na pesquisa.' : 'Nenhum produto cadastrado.';
-    container.appendChild(p);
+    container.innerHTML = `
+      <div style="text-align:center; padding:40px 20px; background:rgba(0,0,0,0.2); border-radius:16px; border:1px dashed rgba(255,255,255,0.1);">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:12px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <p style="color:#94a3b8; font-size:0.9rem;">${searchTerm ? 'Nenhum item bate com a sua pesquisa.' : 'Seu catálogo de engenharia está vazio.'}</p>
+      </div>`;
     return;
   }
 
@@ -619,27 +629,28 @@ function renderProducts(){
   // 3. Renderiza Caixas Retráteis
   Object.values(grouped).filter(g => g.products.length > 0).forEach(group => {
     const catWrapper = document.createElement('div');
-    catWrapper.style.marginBottom = '20px';
-    catWrapper.style.background = 'rgba(255,255,255,0.02)';
-    catWrapper.style.border = '1px solid rgba(148,163,184,0.12)';
+    catWrapper.style.marginBottom = '24px';
+    catWrapper.style.background = 'rgba(15, 23, 42, 0.4)';
+    catWrapper.style.border = '1px solid rgba(255,255,255,0.06)';
     catWrapper.style.borderRadius = '24px';
     catWrapper.style.padding = '16px';
+    catWrapper.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.05)';
     
     // Cabeçalho Clicável
     catWrapper.innerHTML = `
-      <div class="box-header-toggle" style="display:flex; align-items:center; justify-content:space-between; cursor:pointer; margin-bottom: 16px;">
-        <div style="display:flex; align-items:center; gap:12px;">
-          <div style="background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.25); border-radius: 12px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
-            ${group.box.emoji}
-          </div>
+      <div class="box-header-toggle" style="display:flex; align-items:center; justify-content:space-between; cursor:pointer; margin-bottom: 16px; padding: 4px;">
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(16, 185, 129, 0.1)); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 12px; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">${group.box.emoji}</div>
           <div>
-            <h4 style="font-weight: 700; font-size: 1.1rem; color: #fff; line-height: 1.2;">${group.box.name}</h4>
-            <span style="font-size: 0.8rem; color: var(--muted);">${group.products.length} produto(s)</span>
+            <h4 style="font-weight: 800; font-size: 1.1rem; color: #fff; line-height: 1.2; letter-spacing:-0.02em;">${group.box.name}</h4>
+            <span style="font-size: 0.75rem; color: #94a3b8; font-weight:500; text-transform:uppercase; letter-spacing:0.5px;">${group.products.length} Produto(s)</span>
           </div>
         </div>
-        <div class="toggle-icon" style="font-size: 1.2rem; color: var(--muted);">▼</div>
+        <div class="toggle-icon" style="display:flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.05); color:#94a3b8; transition:0.3s;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
       </div>
-      <div class="cat-list" style="display:flex; flex-direction:column; gap:12px;"></div>
+      <div class="cat-list" style="display:flex; flex-direction:column; gap:14px;"></div>
     `;
 
     const headerToggle = catWrapper.querySelector('.box-header-toggle');
@@ -649,10 +660,12 @@ function renderProducts(){
     headerToggle.addEventListener('click', () => {
       if(catList.style.display === 'none'){
         catList.style.display = 'flex';
-        toggleIcon.textContent = '▼';
+        toggleIcon.style.transform = 'rotate(0deg)';
+        toggleIcon.style.background = 'rgba(255,255,255,0.05)';
       } else {
         catList.style.display = 'none';
-        toggleIcon.textContent = '▶';
+        toggleIcon.style.transform = 'rotate(-90deg)';
+        toggleIcon.style.background = 'transparent';
       }
     });
 
@@ -669,39 +682,70 @@ function renderProducts(){
       card.style.display = 'flex';
       card.style.flexDirection = 'column';
       card.style.gap = '0';
+      card.style.background = 'rgba(2, 6, 23, 0.7)';
+      card.style.border = '1px solid rgba(255,255,255,0.08)';
 
       card.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
           <div style="min-width:0;">
-            <div style="font-weight:700; font-size:1.05rem; color:#fff;">${prod.name}</div>
-            <div style="font-weight:800; font-size:1.1rem; color:var(--accent); margin-top:2px;">${money(prod.price)}</div>
+            <div style="font-weight:800; font-size:1.15rem; color:#f8fafc; letter-spacing:-0.02em;">${prod.name}</div>
+            <div style="font-weight:900; font-size:1.25rem; color:#10b981; margin-top:4px; display:flex; align-items:center; gap:6px;">
+              ${money(prod.price)} 
+              <span style="font-size:0.65rem; color:#10b981; border:1px solid rgba(16,185,129,0.3); padding:2px 6px; border-radius:6px; background:rgba(16,185,129,0.1); text-transform:uppercase; letter-spacing:0.5px;">Base</span>
+            </div>
           </div>
 
           <div class="prod-action-menu" style="position:relative; flex:none;">
-            <button class="btn small ghost action-menu-toggle" data-id="${prod.id}" style="border:1px solid rgba(255,255,255,0.15); border-radius:12px; padding: 8px 12px; font-size: 0.8rem; background: rgba(0,0,0,0.2);">⚙️ Opções ▼</button>
+            <button class="action-menu-toggle" data-id="${prod.id}" style="width:36px; height:36px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:#cbd5e1; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:0.2s;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none;"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+            </button>
             
-            <div id="menu-${prod.id}" class="action-dropdown" style="display:none; position:absolute; right:0; top:calc(100% + 6px); background:#0f172a; border:1px solid rgba(148,163,184,0.2); border-radius:14px; padding:6px; z-index:50; min-width:170px; box-shadow:0 12px 30px rgba(0,0,0,0.6); flex-direction:column; gap:4px;">
-              <button class="btn small ghost prod-edit-toggle" data-id="${prod.id}" style="width:100%; border:none; justify-content:flex-start; font-weight:500; color:#fff;">✏️ Editar Produto</button>
-              <button class="btn small ghost prod-preview" data-id="${prod.id}" style="width:100%; border:none; justify-content:flex-start; font-weight:500; color:#fff;">📊 Calcular Lucro</button>
-              <button class="btn small ghost prod-sell" data-id="${prod.id}" style="width:100%; border:none; justify-content:flex-start; font-weight:500; color:#fff;">💰 Registrar Venda</button>
-              <button class="btn small ghost prod-stock" data-id="${prod.id}" style="width:100%; border:none; justify-content:flex-start; font-weight:500; color:#fff;">📦 Mandar pro Estoque</button>
-              <div style="height:1px; background:rgba(255,255,255,0.1); margin: 2px 0;"></div>
-              <button class="btn small ghost prod-del" data-id="${prod.id}" style="width:100%; border:none; justify-content:flex-start; font-weight:500; color:var(--danger);">🗑️ Excluir Produto</button>
+            <div id="menu-${prod.id}" class="action-dropdown" style="display:none; position:absolute; right:0; top:calc(100% + 8px); background:rgba(15, 23, 42, 0.95); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:8px; z-index:100; min-width:200px; box-shadow:0 20px 40px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.05); flex-direction:column; gap:4px;">
+              <button class="prod-edit-toggle" data-id="${prod.id}" style="width:100%; text-align:left; background:transparent; border:none; color:#f8fafc; font-size:0.85rem; font-weight:500; padding:10px 12px; border-radius:10px; cursor:pointer; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Editar Setup
+              </button>
+              <button class="prod-preview" data-id="${prod.id}" style="width:100%; text-align:left; background:transparent; border:none; color:#f8fafc; font-size:0.85rem; font-weight:500; padding:10px 12px; border-radius:10px; cursor:pointer; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Simulador de Lucro
+              </button>
+              <button class="prod-sell" data-id="${prod.id}" style="width:100%; text-align:left; background:transparent; border:none; color:#f8fafc; font-size:0.85rem; font-weight:500; padding:10px 12px; border-radius:10px; cursor:pointer; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fcd34d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none;"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> Lançar Venda Rápida
+              </button>
+              <button class="prod-stock" data-id="${prod.id}" style="width:100%; text-align:left; background:transparent; border:none; color:#f8fafc; font-size:0.85rem; font-weight:500; padding:10px 12px; border-radius:10px; cursor:pointer; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg> Enviar ao Estoque
+              </button>
+              <div style="height:1px; background:rgba(255,255,255,0.1); margin: 6px 0;"></div>
+              <button class="prod-del" data-id="${prod.id}" style="width:100%; text-align:left; background:transparent; border:none; color:#ef4444; font-size:0.85rem; font-weight:600; padding:10px 12px; border-radius:10px; cursor:pointer; display:flex; align-items:center; gap:8px;" onmouseover="this.style.background='rgba(239,68,68,0.1)'" onmouseout="this.style.background='transparent'">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> Excluir Produto
+              </button>
             </div>
           </div>
         </div>
 
-        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;">
-          <span style="background:rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.05); padding:4px 8px; border-radius:8px; font-size:0.75rem; color:var(--muted-soft);">⏱️ ${Number(prod.hours || 0).toFixed(2)}h</span>
-          <span style="background:rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.05); padding:4px 8px; border-radius:8px; font-size:0.75rem; color:var(--muted-soft);">⚖️ ${Number(prod.fil_g || 0).toFixed(2)}g</span>
-          <span style="background:rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.05); padding:4px 8px; border-radius:8px; font-size:0.75rem; color:var(--muted-soft);">⚡ ${money(prod.energy_h || 0)}/h</span>
-          <span style="background:rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.05); padding:4px 8px; border-radius:8px; font-size:0.75rem; color:var(--muted-soft);">📦 ${money(prod.pack || 0)} emb.</span>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;">
+          <span style="display:inline-flex; align-items:center; gap:4px; background:rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:10px; font-size:0.75rem; color:#cbd5e1; font-weight:500;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            ${Number(prod.hours || 0).toFixed(2)}h
+          </span>
+          <span style="display:inline-flex; align-items:center; gap:4px; background:rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:10px; font-size:0.75rem; color:#cbd5e1; font-weight:500;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+            ${Number(prod.fil_g || 0).toFixed(2)}g
+          </span>
+          <span style="display:inline-flex; align-items:center; gap:4px; background:rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:10px; font-size:0.75rem; color:#cbd5e1; font-weight:500;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            ${money(prod.energy_h || 0)}/h
+          </span>
+          <span style="display:inline-flex; align-items:center; gap:4px; background:rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding:6px 10px; border-radius:10px; font-size:0.75rem; color:#cbd5e1; font-weight:500;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line></svg>
+            ${money(prod.pack || 0)} Pack
+          </span>
         </div>
 
-        ${prod.desc ? `<div style="font-size:0.8rem; color:var(--muted); margin-top:10px; line-height:1.4;">📝 ${prod.desc}</div>` : ''}
-        <div style="font-size:0.75rem; color:var(--muted); margin-top:8px;">🎨 Variações: <span style="color:var(--text);">${variantSummary}</span></div>
+        ${prod.desc ? `<div style="font-size:0.8rem; color:#94a3b8; margin-top:14px; line-height:1.5; background:rgba(0,0,0,0.3); padding:10px 12px; border-radius:10px; border-left:3px solid #3b82f6;">${prod.desc}</div>` : ''}
+        
+        <div style="font-size:0.75rem; color:#64748b; margin-top:14px; text-transform:uppercase; letter-spacing:0.5px; font-weight:600;">Variações Dinâmicas</div>
+        <div style="font-size:0.85rem; color:#e2e8f0; margin-top:4px; font-weight:500;">${variantSummary}</div>
 
-        <div class="prod-edit-box" id="edit-${prod.id}" style="display:none; margin-top:14px; padding-top:14px; border-top: 1px dashed rgba(148,163,184,0.2);">
+        <div class="prod-edit-box" id="edit-${prod.id}" style="display:none; margin-top:20px; padding-top:20px; border-top: 1px dashed rgba(255,255,255,0.1);">
           <div class="form-grid">
             
             <div class="form-field" style="grid-column:1/-1">
@@ -746,52 +790,53 @@ function renderProducts(){
               <input class="edit-desc" data-id="${prod.id}" value="${prod.desc || ''}">
             </div>
 
-            <div class="prod-variants-panel" style="grid-column:1/-1; padding:16px; border-radius:24px; border:1px solid rgba(148,163,184,0.15); background:rgba(255,255,255,0.02); margin-top: 8px;">
-              <div style="font-weight:700; margin-bottom:14px; font-size:1.05rem; color:var(--text);">Variações Cadastradas</div>
-
-              <div class="variant-list" id="variant-list-${prod.id}" style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
+            <div class="prod-variants-panel" style="grid-column:1/-1; padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.08); background:rgba(0,0,0,0.3); margin-top: 8px;">
+              <div style="font-weight:700; margin-bottom:16px; font-size:1rem; color:#fff; display:flex; align-items:center; gap:8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                Tabela de Variações
+              </div>
+              <div class="variant-list" id="variant-list-${prod.id}" style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
                 ${prod.variants.map(v => `
-                  <div class="variant-row" data-variant-id="${v.id}" style="display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; padding:12px; border-radius:18px; background:rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);">
-                    <div class="form-field" style="margin:0; flex:1; min-width:120px;">
-                      <label>Nome da variação</label>
+                  <div class="variant-row" data-variant-id="${v.id}" style="display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; padding:12px 16px; border-radius:16px; background:rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.05);">
+                    <div class="form-field" style="margin:0; flex:1; min-width:140px;">
+                      <label style="font-size:0.75rem;">Nome (Ex: Pintado a Mão)</label>
                       <input class="variant-label" data-product="${prod.id}" data-variant="${v.id}" type="text" value="${v.label}"/>
                     </div>
                     <div class="form-field" style="margin:0; flex:1; min-width:100px;">
-                      <label>Preço (R$)</label>
+                      <label style="font-size:0.75rem;">Preço Ajustado (R$)</label>
                       <input class="variant-price" data-product="${prod.id}" data-variant="${v.id}" type="number" step="0.01" value="${v.price}"/>
                     </div>
                     <div style="display:flex; flex:none;">
-                      ${
-                        v.id === 'default'
-                          ? '<div style="display:flex; align-items:center; justify-content:center; height: 46px; padding: 0 16px; border-radius: 16px; background: rgba(255,255,255,0.05); color:var(--muted); font-size:0.85rem;">Padrão</div>'
-                          : `<button class="btn small prod-variant-del" data-product="${prod.id}" data-variant="${v.id}" type="button" style="height: 46px; border-radius: 16px; background: rgba(239,68,68,0.1); color: var(--danger); border: 1px solid rgba(239,68,68,0.2);">Remover</button>`
-                      }
+                      ${v.id === 'default' ? '<div style="display:flex; align-items:center; justify-content:center; height: 50px; padding: 0 16px; border-radius: 12px; background: rgba(255,255,255,0.05); color:#64748b; font-size:0.8rem; font-weight:600;">Padrão Base</div>' : `<button class="btn small danger prod-variant-del" data-product="${prod.id}" data-variant="${v.id}" type="button" style="height: 50px; border-radius: 12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>`}
                     </div>
                   </div>
                 `).join('')}
               </div>
 
-              <div style="padding: 16px; border-radius: 20px; border: 1px dashed rgba(148,163,184,0.3); background: rgba(0,0,0,0.15);">
-                <div style="font-weight:600; font-size:0.9rem; color: var(--muted); margin-bottom: 12px;">➕ Adicionar Nova Variação</div>
+              <div style="padding: 20px; border-radius: 16px; border: 1px dashed rgba(255,255,255,0.15); background: rgba(15,23,42,0.4);">
+                <div style="font-weight:600; font-size:0.85rem; color: #cbd5e1; margin-bottom: 12px; display:flex; align-items:center; gap:6px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Inserir Nova Variação
+                </div>
                 <div style="display:flex; flex-wrap:wrap; gap: 12px; align-items: flex-end;">
-                  <div class="form-field" style="margin:0; flex:1; min-width:120px;">
-                    <label>Nome (Ex: Rosa)</label>
-                    <input type="text" class="variant-new-label" data-id="${prod.id}" placeholder="Ex: Rosa">
+                  <div class="form-field" style="margin:0; flex:1; min-width:140px;">
+                    <label>Nome (Ex: Kit 2 Unid.)</label>
+                    <input type="text" class="variant-new-label" data-id="${prod.id}" placeholder="Defina o nome">
                   </div>
                   <div class="form-field" style="margin:0; flex:1; min-width:100px;">
                     <label>Preço (R$)</label>
-                    <input type="number" step="0.01" class="variant-new-price" data-id="${prod.id}" placeholder="Ex: 15.00">
+                    <input type="number" step="0.01" class="variant-new-price" data-id="${prod.id}" placeholder="0.00">
                   </div>
                   <div class="form-actions" style="margin:0; flex:none;">
-                    <button class="btn-primary small prod-variant-add" data-id="${prod.id}" type="button" style="height: 46px; border-radius: 16px; padding: 0 20px;">Adicionar</button>
+                    <button class="btn-primary small prod-variant-add" data-id="${prod.id}" type="button" style="height: 50px; border-radius: 12px; padding: 0 24px;">Adicionar</button>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div style="grid-column:1/-1; display:flex; gap:8px; flex-wrap:wrap; margin-top: 10px;">
-              <button class="btn small btn-primary prod-save" data-id="${prod.id}">Salvar Alterações</button>
-              <button class="btn small prod-cancel" data-id="${prod.id}">Cancelar</button>
+            <div style="grid-column:1/-1; display:flex; gap:12px; flex-wrap:wrap; margin-top: 16px;">
+              <button class="btn-primary prod-save" data-id="${prod.id}" style="border-radius:12px;">Salvar Alterações do Produto</button>
+              <button class="btn ghost prod-cancel" data-id="${prod.id}" style="border-radius:12px;">Descartar e Fechar</button>
             </div>
           </div>
         </div>
@@ -827,7 +872,7 @@ function renderProducts(){
     });
   });
 
-  // Eventos das ações (iguais aos de antes)
+  // Eventos das ações
   container.querySelectorAll('.prod-del').forEach(b=>{
     b.addEventListener('click', e=>{
       const id = e.target.dataset.id;
@@ -977,7 +1022,6 @@ function renderProducts(){
   container.querySelectorAll('.prod-stock').forEach(b=>{
     b.addEventListener('click', e=>{
       const id = e.target.dataset.id;
-      // Compatibilidade com SPA: Mudar aba ativamente se possível
       if(typeof activateTab === 'function') activateTab('estoque');
       const stockProdSel = document.getElementById('stock-prod');
       if (stockProdSel) {
@@ -1519,51 +1563,51 @@ function sellFromStock(stockId, qtyToSell){
 
 function openSellFormForProduct(productId, anchorBtn){
   const existing = document.getElementById('imp3d-sell-form-'+productId);
-  
   closeAllProductPanels();
-
-  if(existing){ 
-    return; 
-  }
+  if(existing) return; 
 
   const prod = state.products.find(p=>p.id===productId);
   if(!prod) return;
-
   ensureProductVariants(prod);
 
   const form = document.createElement('div');
   form.id = 'imp3d-sell-form-'+productId;
-  form.style.marginTop = '8px';
-  form.style.padding = '10px';
-  form.style.background = 'rgba(0,0,0,0.06)';
-  form.style.borderRadius = '8px';
-  form.style.border = '1px solid rgba(255,255,255,0.03)';
+  form.style.marginTop = '16px';
+  form.style.padding = '20px';
+  form.style.background = 'rgba(2, 6, 23, 0.8)';
+  form.style.borderRadius = '16px';
+  form.style.border = '1px solid rgba(255,255,255,0.08)';
+  form.style.boxShadow = 'inset 0 2px 4px rgba(0,0,0,0.3)';
   
   form.innerHTML = `
-    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-      <div style="flex:1; min-width:160px">
-        <label style="font-size:0.85rem;color:var(--muted)">Variação</label>
-        <select id="sell-variant-${productId}" style="width:100%;padding:8px;border-radius:8px;background:#020617;border:1px solid rgba(255,255,255,0.03)"></select>
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px; color:#fff; font-weight:700;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fcd34d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+      Checkout Rápido Direto
+    </div>
+    <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end;">
+      <div style="flex:1; min-width:160px; display:flex; flex-direction:column; gap:6px;">
+        <label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Variação Selecionada</label>
+        <select id="sell-variant-${productId}" style="padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff;"></select>
       </div>
-      <div style="flex:1; min-width:160px">
-        <label style="font-size:0.85rem;color:var(--muted)">Filamento</label>
-        <select id="sell-fil-${productId}" style="width:100%;padding:8px;border-radius:8px;background:#020617;border:1px solid rgba(255,255,255,0.03)"></select>
+      <div style="flex:1; min-width:160px; display:flex; flex-direction:column; gap:6px;">
+        <label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Rolo Consumido</label>
+        <select id="sell-fil-${productId}" style="padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff;"></select>
       </div>
-      <div style="width:110px">
-        <label style="font-size:0.85rem;color:var(--muted)">Quantidade</label>
-        <input id="sell-qty-${productId}" type="number" step="1" value="1" style="width:100%;padding:8px;border-radius:8px;background:#020617;border:1px solid rgba(255,255,255,0.03)"/>
+      <div style="width:100px; display:flex; flex-direction:column; gap:6px;">
+        <label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Unid.</label>
+        <input id="sell-qty-${productId}" type="number" step="1" value="1" style="padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; text-align:center;"/>
       </div>
-      <div style="flex:1; min-width:140px">
-        <label style="font-size:0.85rem;color:var(--muted)">Conta (recebe valor)</label>
-        <select id="sell-acc-${productId}" style="width:100%;padding:8px;border-radius:8px;background:#020617;border:1px solid rgba(255,255,255,0.03)"></select>
+      <div style="flex:1; min-width:150px; display:flex; flex-direction:column; gap:6px;">
+        <label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Recebedor (Wallet)</label>
+        <select id="sell-acc-${productId}" style="padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff;"></select>
       </div>
-      <div style="width:120px">
-        <label style="font-size:0.85rem;color:var(--muted)">Preço (R$)</label>
-        <input id="sell-price-${productId}" type="number" step="0.01" value="${Number(prod.price || 0)}" style="width:100%;padding:8px;border-radius:8px;background:#020617;border:1px solid rgba(255,255,255,0.03)"/>
+      <div style="width:120px; display:flex; flex-direction:column; gap:6px;">
+        <label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Preço C/ Cliente</label>
+        <input id="sell-price-${productId}" type="number" step="0.01" value="${Number(prod.price || 0)}" style="padding:12px; background:rgba(15,23,42,0.8); border:1px solid rgba(16,185,129,0.3); border-radius:12px; color:#10b981; font-weight:700;"/>
       </div>
-      <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
-        <button id="sell-confirm-${productId}" class="btn-primary">Confirmar venda</button>
-        <button id="sell-cancel-${productId}" class="btn ghost">Cancelar</button>
+      <div style="display:flex; flex-direction:row; gap:10px; align-items:center; width:100%; margin-top:8px;">
+        <button id="sell-confirm-${productId}" class="btn-primary" style="flex:1; border-radius:12px; padding:12px;">Confirmar e Receber Fundos</button>
+        <button id="sell-cancel-${productId}" class="btn ghost" style="border-radius:12px; padding:12px;">Cancelar</button>
       </div>
     </div>
   `;
@@ -1637,62 +1681,39 @@ function openSellFormForProduct(productId, anchorBtn){
 
 function openProfitCalcPreviewForProduct(productId, anchorBtn){
   const existing = document.getElementById('imp3d-profit-preview-' + productId);
-  
   closeAllProductPanels(); 
-
-  if(existing){
-    return;
-  }
+  if(existing) return;
 
   const prod = state.products.find(p=>p.id === productId);
   if(!prod) return;
-
   ensureProductVariants(prod);
 
   const form = document.createElement('div');
   form.id = 'imp3d-profit-preview-' + productId;
-  form.style.marginTop = '10px';
-  form.style.padding = '12px';
-  form.style.borderRadius = '14px';
-  form.style.background = 'rgba(255,255,255,0.03)';
-  form.style.border = '1px solid rgba(148,163,184,0.12)';
+  form.style.marginTop = '16px'; form.style.padding = '20px'; form.style.borderRadius = '16px'; 
+  form.style.background = 'rgba(2, 6, 23, 0.8)'; form.style.border = '1px solid rgba(255,255,255,0.08)';
 
   form.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px;">
-      <strong style="font-size:0.95rem;">Cálculo estimado de lucro</strong>
-      <button type="button" class="btn small" id="${form.id}-close">Fechar</button>
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:16px;">
+      <strong style="font-size:1.05rem; color:#fff; display:flex; align-items:center; gap:8px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        Simulador de Engenharia Financeira
+      </strong>
+      <button type="button" class="btn ghost small" id="${form.id}-close" style="border-radius:8px;">Fechar X</button>
     </div>
-
     <div class="form-grid">
-      <div class="form-field">
-        <label>Variação</label>
-        <select id="${form.id}-variant"></select>
-      </div>
-
-      <div class="form-field">
-        <label>Filamento</label>
-        <select id="${form.id}-fil"></select>
-      </div>
-
-      <div class="form-field">
-        <label>Quantidade</label>
-        <input id="${form.id}-qty" type="number" step="1" value="1">
-      </div>
-
-      <div class="form-field">
-        <label>Preço de venda (R$)</label>
-        <input id="${form.id}-price" type="number" step="0.01" value="${Number(prod.price || 0)}">
-      </div>
+      <div class="form-field"><label>Simular Variação</label><select id="${form.id}-variant" style="padding:12px; border-radius:12px;"></select></div>
+      <div class="form-field"><label>Insumo Gasto</label><select id="${form.id}-fil" style="padding:12px; border-radius:12px;"></select></div>
+      <div class="form-field"><label>Tamanho do Lote (Unid.)</label><input id="${form.id}-qty" type="number" step="1" value="1" style="padding:12px; border-radius:12px;"></div>
+      <div class="form-field"><label>Preço Sugerido (R$)</label><input id="${form.id}-price" type="number" step="0.01" value="${Number(prod.price || 0)}" style="padding:12px; border-radius:12px;"></div>
     </div>
-
-    <div class="imp3d-sell-preview" style="margin-top:12px;">
-      <div><span class="label">Custo material</span><span class="value" id="${form.id}-mat">R$ 0,00</span></div>
-      <div><span class="label">Taxa Plataforma</span><span class="value" id="${form.id}-fee">R$ 0,00</span></div>
-      <div><span class="label">Líquido na conta</span><span class="value" id="${form.id}-net">R$ 0,00</span></div>
-      <div><span class="label">Lucro limpo</span><span class="value" id="${form.id}-profit">R$ 0,00</span></div>
+    <div style="margin-top:20px; padding:16px; border-radius:16px; background:rgba(16, 185, 129, 0.05); border:1px solid rgba(16, 185, 129, 0.15); display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:12px;">
+      <div style="background:rgba(2, 6, 23, 0.8); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.05);"><span style="color:#94a3b8; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.5px; font-weight:600; display:block;">Custo (Mat+Hr+Pk)</span><span style="font-weight:800; font-size:1.1rem; color:#fff; margin-top:4px; display:block;" id="${form.id}-mat">R$ 0,00</span></div>
+      <div style="background:rgba(2, 6, 23, 0.8); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.05);"><span style="color:#94a3b8; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.5px; font-weight:600; display:block;">Fee Plataforma</span><span style="font-weight:800; font-size:1.1rem; color:#f59e0b; margin-top:4px; display:block;" id="${form.id}-fee">R$ 0,00</span></div>
+      <div style="background:rgba(2, 6, 23, 0.8); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.05);"><span style="color:#94a3b8; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.5px; font-weight:600; display:block;">Receita na Conta</span><span style="font-weight:800; font-size:1.1rem; color:#fff; margin-top:4px; display:block;" id="${form.id}-net">R$ 0,00</span></div>
+      <div style="background:rgba(16, 185, 129, 0.1); padding:12px; border-radius:12px; border:1px solid rgba(16, 185, 129, 0.3); box-shadow:inset 0 2px 4px rgba(0,0,0,0.2);"><span style="color:#10b981; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.5px; font-weight:800; display:block;">Lucro Líquido Limpo</span><span style="font-weight:900; font-size:1.3rem; color:#10b981; margin-top:2px; display:block; text-shadow:0 0 10px rgba(16,185,129,0.3);" id="${form.id}-profit">R$ 0,00</span></div>
     </div>
   `;
-
   const card = anchorBtn.closest('.box-card');
   card.parentNode.insertBefore(form, card.nextSibling);
 
@@ -1836,7 +1857,7 @@ function renderImpStock(){
 
   if(!grouped.length){
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td colspan="6" class="muted">Nenhum item em estoque.</td>`;
+    tr.innerHTML = `<td colspan="6" style="text-align:center; padding:30px; color:#64748b;">Seu galpão de estoque está vazio no momento.</td>`;
     tbody.appendChild(tr);
     return;
   }
@@ -1848,14 +1869,15 @@ function renderImpStock(){
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${prod.name}</td>
-      <td>${g.variantLabel}</td>
-      <td>${g.qty}</td>
-      <td>${money(avgUnit)}</td>
-      <td>${money(g.totalCost)}</td>
-      <td>
-        <button class="btn small stock-open" data-product="${g.productId}" data-lot="${firstLot ? firstLot.id : ''}">
-          Vender
+      <td style="font-weight:600; color:#f8fafc;">${prod.name}</td>
+      <td><span style="background:rgba(255,255,255,0.05); padding:4px 8px; border-radius:6px; font-size:0.8rem;">${g.variantLabel}</span></td>
+      <td><span style="color:#3b82f6; font-weight:800; background:rgba(59,130,246,0.1); padding:4px 10px; border-radius:8px;">${g.qty} un</span></td>
+      <td style="color:#94a3b8;">${money(avgUnit)}</td>
+      <td style="font-weight:700;">${money(g.totalCost)}</td>
+      <td style="text-align:right;">
+        <button class="btn small stock-open" data-product="${g.productId}" data-lot="${firstLot ? firstLot.id : ''}" style="background:rgba(16,185,129,0.1); color:#10b981; border:1px solid rgba(16,185,129,0.3); border-radius:8px; padding:6px 12px; display:inline-flex; align-items:center; gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none;"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          Checkout Rápido
         </button>
       </td>
     `;
@@ -1898,20 +1920,23 @@ function renderImpSales(){
 
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td>${s.date}</td>
-        <td>${prod.name}</td>
-        <td>${fil.color||fil.id}</td>
-        <td>${s.qty}</td>
+        <td style="color:#94a3b8; font-size:0.8rem;">${s.date.split('-').reverse().join('/')}</td>
+        <td style="font-weight:600; color:#f8fafc;">${prod.name}</td>
+        <td><span style="background:rgba(255,255,255,0.05); padding:4px 8px; border-radius:6px; font-size:0.75rem;">${fil.color||fil.id}</span></td>
+        <td style="font-weight:700;">${s.qty}</td>
         <td>${money(s.amountGross||0)}</td>
-        <td>${money(s.feeTotal||0)}</td>
-        <td>${money(s.netReceived||0)}</td>
-        <td>${money(s.materialCost||0)}</td>
-        <td>${money(s.hourlyCost||0)}</td>
-        <td>${money(s.packagingCost||0)}</td>
-        <td>${money(s.mandatoryReinvest||0)}</td>
-        <td>${money(s.profit||0)}</td>
-        <td>
-          <button class="btn small danger imp-refund-btn" data-id="${s.id}" style="padding: 2px 8px; font-size: 0.7rem;">Estornar</button>
+        <td style="color:#f59e0b;">${money(s.feeTotal||0)}</td>
+        <td style="font-weight:700; color:#fff;">${money(s.netReceived||0)}</td>
+        <td style="color:#94a3b8;">${money(s.materialCost||0)}</td>
+        <td style="color:#94a3b8;">${money(s.hourlyCost||0)}</td>
+        <td style="color:#94a3b8;">${money(s.packagingCost||0)}</td>
+        <td style="color:#3b82f6;">${money(s.mandatoryReinvest||0)}</td>
+        <td><span style="background:rgba(16,185,129,0.1); color:#10b981; padding:6px 10px; border-radius:8px; font-weight:800; border:1px solid rgba(16,185,129,0.2); display:inline-block;">${money(s.profit||0)}</span></td>
+        <td style="text-align:right;">
+          <button class="btn small danger imp-refund-btn" data-id="${s.id}" style="padding:6px 12px; border-radius:8px; display:inline-flex; align-items:center; gap:4px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none;"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+            Estorno
+          </button>
         </td>
       `;
       tbody.appendChild(tr);
@@ -2291,25 +2316,28 @@ function openStoreExpenseForm() {
   let accOptions = state.accounts.map(a => `<option value="${a.id}">${a.name}</option>`).join('');
 
   modal.innerHTML = `
-    <div class="panel-card glass-card" style="width:100%; max-width:400px; padding: 24px;">
-      <h3 class="card-title" style="font-size:1.1rem;">🛍️ Nova Despesa da Loja</h3>
-      <p class="panel-subtitle" style="font-size:0.8rem;">Acrescenta compras de filamentos, bicos, reparações, etc. Isto consumirá do Fundo de Reinvestimento.</p>
-      <div class="form-grid" style="grid-template-columns:1fr; gap:14px; margin-top:16px;">
-        <div class="form-field">
-          <label>Descrição da compra</label>
-          <input type="text" id="se-desc" placeholder="Ex: Filamento PETG, Bico 0.4, Reparação...">
+    <div class="glass-card" style="width:100%; max-width:420px; padding:30px; border:1px solid rgba(255,255,255,0.15); box-shadow:0 25px 50px -12px rgba(0,0,0,0.8); animation: slideUpFade 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+      <h3 style="font-size:1.25rem; font-weight:800; color:#fff; display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+        <div style="background:rgba(245,158,11,0.15); color:#f59e0b; padding:8px; border-radius:10px; display:flex;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></div>
+        Lançar Despesa da Loja
+      </h3>
+      <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:24px; line-height:1.5;">Desconte pagamentos de fornecedores, insumos ou peças. Este valor será deduzido do seu Fundo de Reinvestimento e da sua conta física.</p>
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Descrição do Documento</label>
+          <input type="text" id="se-desc" placeholder="Ex: Filamento PETG Preto Voolt3D" style="padding:14px; background:rgba(2,6,23,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff;">
         </div>
-        <div class="form-field">
-          <label>Valor (R$)</label>
-          <input type="number" step="0.01" id="se-amount" placeholder="0.00">
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Valor Pago (R$)</label>
+          <input type="number" step="0.01" id="se-amount" placeholder="0.00" style="padding:14px; background:rgba(2,6,23,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff; font-size:1.1rem; font-weight:700;">
         </div>
-        <div class="form-field">
-          <label>Conta que pagou</label>
-          <select id="se-acc">${accOptions}</select>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Conta Deduzida</label>
+          <select id="se-acc" style="padding:14px; background:rgba(2,6,23,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:#fff;">${accOptions}</select>
         </div>
-        <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:12px;">
-          <button id="se-confirm" class="btn-primary">Registar Despesa</button>
-          <button id="se-cancel" class="btn ghost">Cancelar</button>
+        <div style="display:flex; gap:10px; margin-top:12px;">
+          <button id="se-cancel" class="btn ghost" style="flex:1; border-radius:12px; padding:14px;">Cancelar</button>
+          <button id="se-confirm" class="btn-primary" style="flex:1.5; border-radius:12px; padding:14px; background:linear-gradient(135deg, #f59e0b, #d97706); border-color:rgba(245,158,11,0.5); box-shadow:0 8px 20px rgba(245,158,11,0.2);">Confirmar Saída</button>
         </div>
       </div>
     </div>
