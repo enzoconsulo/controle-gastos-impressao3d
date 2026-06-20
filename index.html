@@ -22,10 +22,9 @@
        APP SHELL & OVERRIDES DE ALTA PERFORMANCE (UI/UX)
        ========================================================================== */
     
-    html {
-      scroll-padding-top: 180px; /* Impede que âncoras fiquem escondidas sob o header */
-    }
+    html { scroll-padding-top: 180px; }
 
+    /* Fundo Autêntico de Engenharia (Malha + Glow) */
     body {
       background-color: #020617;
       background-image: 
@@ -49,17 +48,18 @@
     ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
     /* ==========================================
-       1. UNIFIED STICKY AREA (CORREÇÃO DA SOBREPOSIÇÃO)
+       1. UNIFIED STICKY AREA (CORREÇÃO DA SOBREPOSIÇÃO NO IOS)
        ========================================== */
     .top-sticky-area {
       position: sticky;
       top: 0;
       z-index: 1000;
-      padding-top: env(safe-area-inset-top, 12px);
-      background: linear-gradient(180deg, rgba(2,6,23,0.95) 40%, rgba(2,6,23,0.8) 80%, transparent);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      padding-bottom: 12px;
+      /* O Segredo do PWA: Empurra o header para baixo da câmera/notch do iPhone */
+      padding-top: max(16px, env(safe-area-inset-top));
+      background: linear-gradient(180deg, rgba(2,6,23,0.95) 50%, rgba(2,6,23,0.8) 85%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding-bottom: 16px;
     }
 
     /* O Cabeçalho (Dynamic Island) */
@@ -68,7 +68,7 @@
       justify-content: space-between;
       align-items: center;
       max-width: 1100px;
-      margin: 0 auto 12px;
+      margin: 0 auto 16px; /* 16px de margem em relação ao mês abaixo */
       border-radius: 20px;
       padding: 12px 20px;
       background: rgba(15, 23, 42, 0.85);
@@ -78,14 +78,14 @@
 
     .app-brand { display: flex; align-items: center; gap: 14px; }
     .app-logo {
-      width: 42px; height: 42px;
+      width: 44px; height: 44px;
       border-radius: 12px;
       background: linear-gradient(135deg, #10b981, #3b82f6);
       display: flex; align-items: center; justify-content: center;
       box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25), inset 0 2px 4px rgba(255,255,255,0.3);
       color: #020617;
     }
-    .app-brand h1 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.02em; margin: 0; color: #fff; }
+    .app-brand h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; margin: 0; color: #fff; }
     .app-brand p { font-size: 0.7rem; color: #94a3b8; margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
     /* Área de Ações e Notificações */
@@ -102,12 +102,12 @@
       border-radius: 50%; border: 2px solid #0f172a; box-shadow: 0 0 10px #ef4444;
     }
     
-    /* Workspace Icon (Substituindo o antigo "EC") */
+    /* Workspace Icon (Substituindo o antigo EC) */
     .workspace-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      width: 38px; height: 38px; border-radius: 12px;
+      background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid rgba(255,255,255,0.1);
       display: flex; align-items: center; justify-content: center;
-      color: #cbd5e1;
+      color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
     /* Popover de Notificações */
@@ -122,12 +122,12 @@
     @keyframes scaleIn { from { opacity: 0; transform: scale(0.95) translateY(-10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
     .notif-card {
-      display: flex; flex-direction: column; gap: 4px;
-      padding: 12px; background: rgba(255,255,255,0.03);
+      display: flex; flex-direction: column; gap: 6px;
+      padding: 14px; background: rgba(255,255,255,0.03);
       border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);
       text-decoration: none; transition: 0.2s;
     }
-    .notif-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); }
+    .notif-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); transform: translateY(-1px); }
     .notif-title { font-size: 0.85rem; font-weight: 700; color: #f8fafc; display: flex; align-items: center; gap: 6px; }
     .notif-desc { font-size: 0.75rem; color: #94a3b8; line-height: 1.4; }
 
@@ -147,7 +147,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 100%; max-width: 340px; /* Garante que fique centralizado e compacto */
+      width: 100%; max-width: 340px; 
       background: rgba(15, 23, 42, 0.8);
       padding: 6px;
       border-radius: 100px;
@@ -178,14 +178,14 @@
       position: sticky;
       top: calc(env(safe-area-inset-top, 12px) + 140px);
       z-index: 998;
-      padding: 10px 16px 20px;
+      padding: 0 16px 20px;
     }
 
     .app-tabs {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       max-width: 1100px;
       margin: 0 auto;
       padding: 6px;
@@ -227,24 +227,28 @@
        ========================================== */
     .app-main { max-width: 1140px; margin: 0 auto; padding: 0 16px 40px; }
 
-    /* FORÇA ABSOLUTA PARA OS DROPDOWNS NÃO SEREM CORTADOS */
-    .glass-card, .box-card, .panel-card, .imp3d-list, .cat-list {
+    /* FORÇA ABSOLUTA PARA NÃO CORTAR OS MENUS DROPDOWN (Z-INDEX e VISIBLE) */
+    .glass-card, .box-card, .panel-card, .imp3d-list, .cat-list, .panel-section {
       overflow: visible !important;
+    }
+
+    /* Submenu de ações flutuante precisa estar acima de tudo */
+    .action-dropdown {
+      z-index: 9999 !important;
     }
 
     .glass-card {
       position: relative;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 24px;
       padding: 24px;
-      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6);
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
       transition: 0.3s ease;
     }
     
-    /* Linha de brilho ajustada para manter a borda curvada perfeita e não transbordar */
     .glass-card::before {
       content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       border-radius: inherit; pointer-events: none;
@@ -315,12 +319,11 @@
        7. RESPONSIVIDADE MOBILE (PWA BOTTOM DOCK)
        ========================================== */
     @media (max-width: 768px) {
-      .app-header-wrapper { padding: 8px 12px 0; }
       .app-header { padding: 10px 16px; border-radius: 20px; }
       .app-brand h1 { font-size: 1.1rem; }
       
-      .top-sticky-area { background: rgba(2,6,23,0.95); padding-bottom: 8px; }
-      .global-period-wrapper { margin: 8px auto 0; padding: 0 12px; }
+      .top-sticky-area { background: rgba(2,6,23,0.95); padding-bottom: 12px; }
+      .global-period-wrapper { margin: 4px auto 0; padding: 0 12px; }
       
       /* Abas viram Menu Inferior (Dock Nativo iOS/Android) */
       .app-tabs-wrapper {
@@ -345,8 +348,8 @@
       }
       .tab-btn.active svg { fill: rgba(16,185,129,0.15); stroke: #10b981; }
 
-      /* Respiro no final do main para não ser coberto pelo dock */
-      .app-main { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
+      /* Respiro GIGANTE no final do main para menu não ser coberto pelo dock ou sumir sob a tela */
+      .app-main { padding-bottom: calc(160px + env(safe-area-inset-bottom)); }
       .glass-card { padding: 20px; border-radius: 20px; }
     }
   </style>
@@ -377,20 +380,25 @@
           <div class="notif-popover" id="notif-modal">
             <h4 style="font-size:0.9rem; font-weight:800; color:#fff; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px;">Central de Avisos</h4>
             
+            <a href="https://github.com/enzoconsulo/controle-gastos-impressao3d" target="_blank" class="notif-card">
+              <div class="notif-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Aviso de segurança </div>
+              <div class="notif-desc">O software possui codigo aberto e todo o projeto está no github para checagem do codigo e segurança dos usuários. Nenhum dado é salvo fora do navegador.<br><strong>https://github.com/enzoconsulo/controle-gastos-impressao3d</strong>.</div>
+            </a>
+
             <a href="https://wa.me/5517997325965" target="_blank" class="notif-card">
               <div class="notif-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Fase Inicial (Beta)</div>
-              <div class="notif-desc">O software está em constante evolução. Caso tenha dúvidas, sujestão ou problemas, clique aqui e me chame no <br>WhatsApp (17) 99732-5965.</div>
+              <div class="notif-desc">O software está em fase inicial de desenvolvimento. Caso tenha qualquer dúvida, sugestão ou enfrente problemas, clique aqui e me chame no WhatsApp:<br><strong>(17) 99732-5965</strong>.</div>
             </a>
 
             <a href="https://wa.me/5517997325965" target="_blank" class="notif-card">
               <div class="notif-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> Apoie o Projeto</div>
-              <div class="notif-desc">Qualquer apoio via PIX ajuda a manter a plataforma viva. Chave Celular: 17997325965.</div>
+              <div class="notif-desc">Se a ferramenta foi útil para sua loja, qualquer apoio via PIX ajuda muito a manter a plataforma no ar.<br>Chave Celular/PIX: <strong>(17) 99732-5965</strong>.</div>
             </a>
           </div>
         </div>
         
         <div class="workspace-icon" title="Instância Local">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><circle cx="12" cy="12" r="3"></circle></svg>
         </div>
       </div>
     </header>
@@ -790,8 +798,8 @@
           </h3>
           <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:20px;">Estes dados alimentam a calculadora de lucros.</p>
           <div style="display:flex; flex-direction:column; gap:16px;">
-            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Taxa de Venda (%) - Ex: 0.20 = 20%</label><input type="number" step="0.01" id="config-fee-pct" placeholder="0.20"></div>
-            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Taxa Fixa por Transação (R$)</label><input type="number" step="0.01" id="config-fee-fixed" placeholder="4.00"></div>
+            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Taxa de Venda (%) - Ex: 0.20</label><input type="number" step="0.01" id="config-fee-pct" placeholder="0.20"></div>
+            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Fee Fixo por Transação (R$)</label><input type="number" step="0.01" id="config-fee-fixed" placeholder="4.00"></div>
             <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Custo Base de Energia (R$/kWh)</label><input type="number" step="0.01" id="config-energy-kwh" placeholder="0.95"></div>
             <button id="btn-save-configs" class="btn-primary" style="margin-top:8px; width:100%;">Persistir Variáveis</button>
           </div>
@@ -836,10 +844,10 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="state.js?v=5"></script>
-  <script src="configuracoes.js?v=5"></script>
-  <script src="impressora.js?v=5"></script>
-  <script src="app.js?v=5"></script>
+  <script src="state.js?v=6"></script>
+  <script src="configuracoes.js?v=6"></script>
+  <script src="impressora.js?v=6"></script>
+  <script src="app.js?v=6"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
