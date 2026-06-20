@@ -603,31 +603,41 @@ tbody tr:last-child td {
    RESPONSIVIDADE (MOBILE)
    ========================================================================== */
 @media (max-width: 768px) {
-  .app-header {
-    margin: 0 12px 16px;
-    padding: 10px 16px;
-    border-radius: 24px;
-  }
-  
+  /* Traz o menu de volta para o TOPO com rolagem horizontal fluida */
   .app-tabs {
+    position: sticky;
+    top: 80px; /* Fica travado logo abaixo da sua logo */
+    bottom: auto;
     margin: 0 12px 20px;
     border-radius: 16px;
+    padding: 6px;
+    justify-content: flex-start;
+    z-index: 100;
+    background: rgba(15, 23, 42, 0.85);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   }
   
-  .panel-grid { grid-template-columns: 1fr; }
-  .box-grid { grid-template-columns: 1fr; }
-  
-  .glass-card, .box-card {
-    padding: 16px;
-    border-radius: 20px;
+  .tab-btn {
+    flex-direction: row; 
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    border: 1px solid transparent;
   }
   
-  .panel-title { font-size: 1.2rem; }
+  /* Bloqueia o clique no ícone para não falhar a seleção da aba */
+  .tab-btn svg { 
+    width: 16px; 
+    height: 16px; 
+    margin-right: 6px !important;
+    pointer-events: none; 
+  }
   
-  .form-grid { grid-template-columns: 1fr; }
-  
-  .imp3d-sell-preview {
-    grid-template-columns: 1fr 1fr;
+  /* Mantém o visual aceso quando a aba for selecionada */
+  .tab-btn.active {
+    background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(59,130,246,0.15)) !important;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 4px 12px rgba(0,0,0,0.2) !important;
   }
 }
 
