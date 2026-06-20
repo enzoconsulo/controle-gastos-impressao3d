@@ -22,13 +22,18 @@
        APP SHELL & OVERRIDES DE ALTA PERFORMANCE (UI/UX)
        ========================================================================== */
     
-    /* Proteção de Scroll e Fundo Autêntico */
+    html {
+      scroll-padding-top: 180px; /* Impede que âncoras fiquem escondidas sob o header */
+    }
+
     body {
       background-color: #020617;
       background-image: 
-        radial-gradient(circle at 15% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 100%, rgba(16, 185, 129, 0.06) 0%, transparent 40%),
-        url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20z' fill='%23ffffff' fill-opacity='0.01' fill-rule='evenodd'/%3E%3C/svg%3E");
+        radial-gradient(circle at 10% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 90% 100%, rgba(16, 185, 129, 0.06) 0%, transparent 50%),
+        linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
       background-attachment: fixed;
       margin: 0;
       padding-bottom: 0;
@@ -37,92 +42,117 @@
       font-family: 'Inter', sans-serif;
     }
 
-    /* Ocultar scrollbars globais para um visual clean (tipo Mac) */
+    /* Scrollbars Elegantes */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
     /* ==========================================
-       1. HEADER (DYNAMIC ISLAND REFINADO)
+       1. UNIFIED STICKY AREA (CORREÇÃO DA SOBREPOSIÇÃO)
        ========================================== */
-    .app-header-wrapper {
+    .top-sticky-area {
       position: sticky;
-      top: env(safe-area-inset-top, 12px);
+      top: 0;
       z-index: 1000;
-      padding: 12px 16px 0;
+      padding-top: env(safe-area-inset-top, 12px);
+      background: linear-gradient(180deg, rgba(2,6,23,0.95) 40%, rgba(2,6,23,0.8) 80%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding-bottom: 12px;
     }
 
+    /* O Cabeçalho (Dynamic Island) */
     .app-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       max-width: 1100px;
-      margin: 0 auto;
+      margin: 0 auto 12px;
       border-radius: 20px;
       padding: 12px 20px;
-      background: rgba(15, 23, 42, 0.7);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      background: rgba(15, 23, 42, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
     }
 
     .app-brand { display: flex; align-items: center; gap: 14px; }
     .app-logo {
-      width: 44px; height: 44px;
+      width: 42px; height: 42px;
       border-radius: 12px;
       background: linear-gradient(135deg, #10b981, #3b82f6);
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3), inset 0 2px 4px rgba(255,255,255,0.3);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25), inset 0 2px 4px rgba(255,255,255,0.3);
       color: #020617;
     }
-    .app-brand h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; margin: 0; color: #fff; }
+    .app-brand h1 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.02em; margin: 0; color: #fff; }
     .app-brand p { font-size: 0.7rem; color: #94a3b8; margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    .user-profile { display: flex; align-items: center; gap: 16px; }
-    .notification-bell { position: relative; color: #94a3b8; cursor: pointer; transition: 0.2s; }
-    .notification-bell:hover { color: #fff; transform: scale(1.1); }
+    /* Área de Ações e Notificações */
+    .header-actions { display: flex; align-items: center; gap: 16px; position: relative; }
+    
+    .notification-bell {
+      position: relative; color: #94a3b8; cursor: pointer; transition: 0.2s;
+      padding: 6px; border-radius: 8px;
+    }
+    .notification-bell:hover { color: #fff; background: rgba(255,255,255,0.05); }
     .notification-dot {
-      position: absolute; top: 0px; right: 2px;
+      position: absolute; top: 4px; right: 6px;
       width: 8px; height: 8px; background: #ef4444;
       border-radius: 50%; border: 2px solid #0f172a; box-shadow: 0 0 10px #ef4444;
     }
-    .avatar {
-      width: 38px; height: 38px; border-radius: 12px;
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      border: 1px solid rgba(255,255,255,0.1);
+    
+    /* Workspace Icon (Substituindo o antigo "EC") */
+    .workspace-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
       display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 0.9rem; color: #fff;
-      cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: 0.2s;
+      color: #cbd5e1;
     }
-    .avatar:hover { border-color: rgba(255,255,255,0.3); }
+
+    /* Popover de Notificações */
+    .notif-popover {
+      display: none; position: absolute; top: calc(100% + 10px); right: 0;
+      width: 320px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.05);
+      padding: 16px; z-index: 9999; animation: scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .notif-popover.active { display: flex; flex-direction: column; gap: 12px; }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.95) translateY(-10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+    .notif-card {
+      display: flex; flex-direction: column; gap: 4px;
+      padding: 12px; background: rgba(255,255,255,0.03);
+      border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);
+      text-decoration: none; transition: 0.2s;
+    }
+    .notif-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); }
+    .notif-title { font-size: 0.85rem; font-weight: 700; color: #f8fafc; display: flex; align-items: center; gap: 6px; }
+    .notif-desc { font-size: 0.75rem; color: #94a3b8; line-height: 1.4; }
 
     /* ==========================================
-       2. CONTROLE DE MÊS (GLOBAL & CENTRALIZADO)
+       2. CONTROLE DE MÊS (CENTRALIZADO PERFEITO)
        ========================================== */
     .global-period-wrapper {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 20px auto;
       max-width: 1100px;
+      margin: 0 auto;
       padding: 0 16px;
-      z-index: 990;
     }
 
     .period-pill {
       display: flex;
       align-items: center;
-      gap: 16px;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: 6px 8px;
+      justify-content: space-between;
+      width: 100%; max-width: 340px; /* Garante que fique centralizado e compacto */
+      background: rgba(15, 23, 42, 0.8);
+      padding: 6px;
       border-radius: 100px;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
 
     .period-btn {
@@ -135,35 +165,35 @@
     .period-btn:hover { background: #3b82f6; border-color: #3b82f6; box-shadow: 0 0 15px rgba(59,130,246,0.4); }
     .period-btn:active { transform: scale(0.9); }
 
-    .period-info { display: flex; flex-direction: column; align-items: center; min-width: 120px; }
+    .period-info { display: flex; flex-direction: column; align-items: center; flex: 1; }
     .period-caption { font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; font-weight: 600; }
     .live-pulse { width: 6px; height: 6px; border-radius: 50%; background: #10b981; box-shadow: 0 0 8px #10b981; animation: pulse 2s infinite ease-in-out; }
     @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.3); } 100% { opacity: 1; transform: scale(1); } }
-    .period-value { font-weight: 800; color: #f8fafc; font-size: 1rem; margin-top: 2px; letter-spacing: 0.5px;}
+    .period-value { font-weight: 800; color: #f8fafc; font-size: 1.05rem; margin-top: 2px; letter-spacing: 0.5px;}
 
     /* ==========================================
        3. NAVEGAÇÃO DE ABAS (DESKTOP & MOBILE BOTTOM)
        ========================================== */
     .app-tabs-wrapper {
       position: sticky;
-      top: calc(env(safe-area-inset-top, 12px) + 74px);
+      top: calc(env(safe-area-inset-top, 12px) + 140px);
       z-index: 998;
-      padding: 0 16px 20px;
+      padding: 10px 16px 20px;
     }
 
     .app-tabs {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       max-width: 1100px;
       margin: 0 auto;
       padding: 6px;
       background: rgba(15, 23, 42, 0.7);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
@@ -173,12 +203,12 @@
     .tab-btn {
       flex: 1 0 auto;
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 10px 20px; border-radius: 12px; border: 1px solid transparent;
+      padding: 10px 20px; border-radius: 14px; border: 1px solid transparent;
       background: transparent; color: #94a3b8; font-size: 0.85rem; font-weight: 600;
       cursor: pointer; transition: all 0.2s ease; position: relative;
     }
     
-    /* PROTEÇÃO CONTRA CLIQUE FALSO NO SVG */
+    /* GATILHO BLINDADO CONTRA BUGS */
     .tab-btn * { pointer-events: none; }
 
     .tab-btn:hover { color: #f8fafc; background: rgba(255, 255, 255, 0.03); }
@@ -193,37 +223,65 @@
     @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
     /* ==========================================
-       4. COMPONENTES VISUAIS E FORÇAS DE OVERFLOW
+       4. COMPONENTES VISUAIS & FIX OVERFLOW
        ========================================== */
     .app-main { max-width: 1140px; margin: 0 auto; padding: 0 16px 40px; }
 
-    /* FORÇA ABSOLUTA PARA NÃO CORTAR OS MENUS DROPDOWN DOS PRODUTOS */
-    .glass-card, .box-card, .cat-list, .imp3d-list {
+    /* FORÇA ABSOLUTA PARA OS DROPDOWNS NÃO SEREM CORTADOS */
+    .glass-card, .box-card, .panel-card, .imp3d-list, .cat-list {
       overflow: visible !important;
     }
 
     .glass-card {
       position: relative;
-      background: rgba(15, 23, 42, 0.55);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 24px;
       padding: 24px;
-      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6);
       transition: 0.3s ease;
     }
+    
+    /* Linha de brilho ajustada para manter a borda curvada perfeita e não transbordar */
     .glass-card::before {
-      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-      z-index: 1; pointer-events: none; border-radius: 24px 24px 0 0;
+      content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      border-radius: inherit; pointer-events: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+      z-index: 1;
     }
+    .glass-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.15); box-shadow: 0 15px 35px -5px rgba(0,0,0,0.7); }
 
-    /* Estilização de Tabelas de Alta Performance */
+    /* ==========================================
+       5. TOGGLE (SWITCH) iOS STYLE
+       ========================================== */
+    .ios-switch {
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+      background: rgba(0,0,0,0.4); padding: 8px 16px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
+    }
+    .ios-switch:hover { background: rgba(255,255,255,0.03); }
+    .switch-track {
+      position: relative; width: 40px; height: 22px; background: rgba(255,255,255,0.1);
+      border-radius: 20px; transition: 0.3s;
+    }
+    .switch-track::after {
+      content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px;
+      background: #fff; border-radius: 50%; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .ios-switch input:checked ~ .switch-track { background: #10b981; }
+    .ios-switch input:checked ~ .switch-track::after { transform: translateX(18px); }
+    .ios-switch input { display: none; }
+
+    /* ==========================================
+       6. TABELAS DE ALTA PERFORMANCE
+       ========================================== */
     .table-wrapper {
       width: 100%; overflow-x: auto; border-radius: 16px; 
       border: 1px solid rgba(255,255,255,0.08); background: rgba(2, 6, 23, 0.6); 
-      backdrop-filter: blur(10px); -webkit-overflow-scrolling: touch;
+      -webkit-overflow-scrolling: touch;
     }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; }
     thead th { padding: 16px; background: rgba(15, 23, 42, 0.95); color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.7rem; border-bottom: 1px solid rgba(255,255,255,0.08); white-space: nowrap; }
@@ -231,20 +289,17 @@
     tbody tr:hover { background: rgba(255,255,255,0.02); }
     tbody tr:last-child td { border-bottom: none; }
 
-    /* Inputs Premium */
+    /* Inputs e Botões */
     input[type="text"], input[type="number"], select {
       width: 100%; padding: 14px 16px; border-radius: 12px;
-      background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(2, 6, 23, 0.6); border: 1px solid rgba(255,255,255,0.1);
       color: #fff; font-size: 0.95rem; font-family: inherit; transition: 0.2s;
     }
     input:focus, select:focus {
-      outline: none; border-color: #3b82f6; background: rgba(15, 23, 42, 0.8);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      outline: none; border-color: #3b82f6; background: rgba(15, 23, 42, 0.9);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
     }
-    input::placeholder { color: rgba(148, 163, 184, 0.4); }
-    input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-
-    /* Botões Padrão App */
+    
     .btn-primary {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       padding: 14px 24px; border-radius: 14px; border: 1px solid rgba(16, 185, 129, 0.4);
@@ -257,17 +312,17 @@
     .btn-primary:active { transform: translateY(1px) scale(0.98); }
 
     /* ==========================================
-       5. MOBILE BOTTOM NAVIGATION (A Mágica)
+       7. RESPONSIVIDADE MOBILE (PWA BOTTOM DOCK)
        ========================================== */
     @media (max-width: 768px) {
       .app-header-wrapper { padding: 8px 12px 0; }
       .app-header { padding: 10px 16px; border-radius: 20px; }
       .app-brand h1 { font-size: 1.1rem; }
       
-      .global-period-wrapper { margin: 10px auto 20px; }
-      .period-pill { padding: 4px 6px; width: 100%; justify-content: space-between; border-radius: 16px; }
+      .top-sticky-area { background: rgba(2,6,23,0.95); padding-bottom: 8px; }
+      .global-period-wrapper { margin: 8px auto 0; padding: 0 12px; }
       
-      /* Oculta as abas no topo e as joga para o rodapé perfeitamente */
+      /* Abas viram Menu Inferior (Dock Nativo iOS/Android) */
       .app-tabs-wrapper {
         position: fixed;
         bottom: 0; top: auto; left: 0; right: 0;
@@ -276,10 +331,9 @@
       .app-tabs {
         border-radius: 0; border: none; border-top: 1px solid rgba(255,255,255,0.08);
         background: rgba(2, 6, 23, 0.85);
-        backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
         padding: 10px 8px max(16px, env(safe-area-inset-bottom));
         justify-content: space-around;
-        box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
+        box-shadow: 0 -10px 40px rgba(0,0,0,0.7);
       }
       .tab-btn {
         flex-direction: column; gap: 4px; padding: 6px; font-size: 0.65rem; border-radius: 12px;
@@ -291,15 +345,16 @@
       }
       .tab-btn.active svg { fill: rgba(16,185,129,0.15); stroke: #10b981; }
 
-      /* Adiciona respiro no final da página para o menu flutuante não cobrir os botões de salvar */
-      .app-main { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
-      .glass-card { padding: 16px; border-radius: 20px; }
+      /* Respiro no final do main para não ser coberto pelo dock */
+      .app-main { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
+      .glass-card { padding: 20px; border-radius: 20px; }
     }
   </style>
 </head>
 <body class="app-shell">
 
-  <div class="app-header-wrapper">
+  <div class="top-sticky-area">
+    
     <header class="app-header">
       <div class="app-brand">
         <div class="app-logo">
@@ -314,29 +369,45 @@
         </div>
       </div>
       
-      <div class="user-profile">
-        <div class="notification-bell" title="Notificações do Sistema">
+      <div class="header-actions">
+        <div class="notification-bell" id="bell-trigger">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
           <div class="notification-dot"></div>
+          
+          <div class="notif-popover" id="notif-modal">
+            <h4 style="font-size:0.9rem; font-weight:800; color:#fff; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px;">Central de Avisos</h4>
+            
+            <a href="https://wa.me/5517997325965" target="_blank" class="notif-card">
+              <div class="notif-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Fase Inicial (Beta)</div>
+              <div class="notif-desc">O software está em constante evolução. Caso tenha dúvidas, sujestão ou problemas, clique aqui e me chame no <br>WhatsApp (17) 99732-5965.</div>
+            </a>
+
+            <a href="https://wa.me/5517997325965" target="_blank" class="notif-card">
+              <div class="notif-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> Apoie o Projeto</div>
+              <div class="notif-desc">Qualquer apoio via PIX ajuda a manter a plataforma viva. Chave Celular: 17997325965.</div>
+            </a>
+          </div>
         </div>
-        <div class="avatar" title="Seu Perfil">EC</div>
+        
+        <div class="workspace-icon" title="Instância Local">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        </div>
       </div>
     </header>
-  </div>
 
-  <div class="global-period-wrapper">
-    <div class="period-pill">
-      <button id="prev-month" class="period-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
-      <div class="period-info">
-        <span class="period-caption"><div class="live-pulse"></div> Fluxo Ativo</span>
-        <span id="month-index" style="display:none;">0</span>
-        <span id="month-label" class="period-value"></span>
+    <div class="global-period-wrapper">
+      <div class="period-pill">
+        <button id="prev-month" class="period-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+        <div class="period-info">
+          <span class="period-caption"><div class="live-pulse"></div> Fluxo Ativo</span>
+          <span id="month-index" style="display:none;">0</span>
+          <span id="month-label" class="period-value"></span>
+        </div>
+        <button id="next-month" class="period-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
       </div>
-      <button id="next-month" class="period-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
     </div>
-  </div>
 
-  <div class="app-tabs-wrapper">
+  </div> <div class="app-tabs-wrapper">
     <nav class="tabs app-tabs">
       <button data-tab="dashboard" class="tab-btn active">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
@@ -373,9 +444,11 @@
         <div>
           <h2 style="font-size:1.5rem; font-weight:800; color:#fff; margin:0;">Dashboard Geral</h2>
         </div>
-        <label style="cursor:pointer; display:flex; align-items:center; gap:8px; background:rgba(0,0,0,0.3); padding:8px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.08); transition:0.2s;">
-          <input type="checkbox" id="dash-toggle-alltime" style="width:16px; height:16px; accent-color:#10b981;"> 
-          <span style="font-size:0.8rem; color:#f8fafc; font-weight:600;">Consolidar Todo o Período</span>
+        
+        <label class="ios-switch">
+          <span style="font-size:0.85rem; color:#f8fafc; font-weight:600;">Consolidar Todo o Período</span>
+          <input type="checkbox" id="dash-toggle-alltime"> 
+          <div class="switch-track"></div>
         </label>
       </div>
 
@@ -471,7 +544,7 @@
           Linha do Tempo (Receita vs Lucro Real)
         </h3>
         <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:20px;">Acompanhamento histórico dos últimos 6 meses de faturamento.</p>
-        <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.05); border-radius:16px; padding:16px; min-height:180px; max-height:260px; position:relative;">
+        <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:16px; height:240px; position:relative;">
           <canvas id="imp3d-trend-chart"></canvas>
         </div>
       </div>
@@ -484,11 +557,11 @@
         <div class="table-wrapper">
           <table style="width:100%; border-collapse:collapse;">
             <thead>
-              <tr>
-                <th>Identificação da Peça</th>
-                <th style="text-align:center;">Saída (Un)</th>
-                <th style="text-align:right;">Faturamento</th>
-                <th style="text-align:right; color:#10b981;">Lucro Limpo</th>
+              <tr style="background:rgba(15,23,42,0.8); text-transform:uppercase; font-size:0.7rem; color:#94a3b8; letter-spacing:0.5px;">
+                <th style="padding:16px; border-bottom:1px solid rgba(255,255,255,0.08);">Identificação da Peça</th>
+                <th style="padding:16px; text-align:center; border-bottom:1px solid rgba(255,255,255,0.08);">Saída (Un)</th>
+                <th style="padding:16px; text-align:right; border-bottom:1px solid rgba(255,255,255,0.08);">Faturamento</th>
+                <th style="padding:16px; text-align:right; color:#10b981; border-bottom:1px solid rgba(255,255,255,0.08);">Lucro Limpo</th>
               </tr>
             </thead>
             <tbody id="dash-top-products-body"></tbody>
@@ -499,7 +572,7 @@
 
     <section id="tab-produtos" class="tab-panel">
       <div style="margin-bottom:24px;">
-        <h2 style="font-size:1.5rem; font-weight:800; color:#fff; margin-bottom:4px;">Catálogo Engine</h2>
+        <h2 style="font-size:1.5rem; font-weight:800; color:#fff; margin-bottom:6px;">Catálogo Engine</h2>
         <p style="font-size:0.9rem; color:#94a3b8;">Modele seu portfólio, estruture caixas organizadoras e dimensione custos matemáticos.</p>
       </div>
       
@@ -717,8 +790,8 @@
           </h3>
           <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:20px;">Estes dados alimentam a calculadora de lucros.</p>
           <div style="display:flex; flex-direction:column; gap:16px;">
-            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Taxa de Venda (%) - Ex: 0.20</label><input type="number" step="0.01" id="config-fee-pct" placeholder="0.20"></div>
-            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Fee Fixo por Transação (R$)</label><input type="number" step="0.01" id="config-fee-fixed" placeholder="4.00"></div>
+            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Taxa de Venda (%) - Ex: 0.20 = 20%</label><input type="number" step="0.01" id="config-fee-pct" placeholder="0.20"></div>
+            <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Taxa Fixa por Transação (R$)</label><input type="number" step="0.01" id="config-fee-fixed" placeholder="4.00"></div>
             <div><label style="font-size:0.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase;">Custo Base de Energia (R$/kWh)</label><input type="number" step="0.01" id="config-energy-kwh" placeholder="0.95"></div>
             <button id="btn-save-configs" class="btn-primary" style="margin-top:8px; width:100%;">Persistir Variáveis</button>
           </div>
@@ -767,6 +840,26 @@
   <script src="configuracoes.js?v=5"></script>
   <script src="impressora.js?v=5"></script>
   <script src="app.js?v=5"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const bell = document.getElementById('bell-trigger');
+      const popover = document.getElementById('notif-modal');
+      
+      if (bell && popover) {
+        bell.addEventListener('click', (e) => {
+          e.stopPropagation();
+          popover.classList.toggle('active');
+        });
+        
+        window.addEventListener('click', (e) => {
+          if (!bell.contains(e.target) && !popover.contains(e.target)) {
+            popover.classList.remove('active');
+          }
+        });
+      }
+    });
+  </script>
 
   <script>
     (function(){
